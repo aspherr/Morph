@@ -5,10 +5,10 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 import { siGithub } from "simple-icons"
-import { Inbox } from "lucide-react";
-import Toggle from "./toggle";
 import { Button } from "@/components/ui/button"
-import Link from "next/link";
+
+import Toggle from "./toggle";
+import Feedback from "./feedback";
 
 const Navbar = () => {
     const { resolvedTheme } = useTheme();
@@ -22,16 +22,16 @@ const Navbar = () => {
       : "/images/light-logo.svg";
     
     return (
-        <nav className="w-full flex items-center justify-between border-b-white">
+        <nav className="w-full flex items-center justify-between border-b-white mt-5">
             <div>
-                <a href="#">
-                    <Image src={src} alt="Morph Logo" width={275} height={275}/>
+                <a href="/">
+                    <Image src={src} alt="Morph Logo" width={150} height={150} />
                 </a>
             </div>
 
-            <ul className="flex items-center space-x-4 mr-10">
+            <ul className="flex items-center space-x-4">
                 <li>
-
+                    <Feedback />
                 </li>
 
                 <li>
