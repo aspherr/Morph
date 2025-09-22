@@ -4,7 +4,11 @@ import Image from "next/image";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
+import { siGithub } from "simple-icons"
+import { Inbox } from "lucide-react";
 import Toggle from "./toggle";
+import { Button } from "@/components/ui/button"
+import Link from "next/link";
 
 const Navbar = () => {
     const { resolvedTheme } = useTheme();
@@ -26,6 +30,25 @@ const Navbar = () => {
             </div>
 
             <ul className="flex items-center space-x-4 mr-10">
+                <li>
+
+                </li>
+
+                <li>
+                    <a href="https://github.com/aspherr/Morph" target="_blank" rel="noopener noreferrer">
+                        <Button variant="outline" size="icon">
+                            <svg
+                            role="img"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="fill-current">
+                                <title>{siGithub.title}</title>
+                                <path d={siGithub.path} />
+                            </svg>
+                        </Button>
+                    </a>
+                </li>
+
                 <li>
                     <Toggle />
                 </li>
