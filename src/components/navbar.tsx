@@ -22,7 +22,7 @@ const Navbar = () => {
       : "/images/light-logo.svg";
     
     return (
-        <nav className="w-full flex items-center justify-between border-b-white mt-5">
+        <nav className="w-full flex items-center justify-between border-b-white mt-10">
             <div>
                 <a href="/">
                     <Image src={src} alt="Morph Logo" width={150} height={150} />
