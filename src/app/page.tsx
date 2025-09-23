@@ -10,8 +10,15 @@ export default function Home() {
         <Navbar />
       </section>
 
-      <main className="flex-1">
-        
+      <main className="flex-1 font-inter">
+        <section id="hero" className="mt-20">
+          <div className="flex flex-col items-center justify-center space-y-4">
+            <h1 className="font-semibold text-6xl">Convert Any File. Instantly.</h1>
+            <p className="font-light text-md">
+              Upload your files and get them back in the format you need—fast, secure, and free.
+            </p>
+          </div>
+        </section>
       </main>
 
       <section id="footer">
