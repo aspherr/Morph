@@ -7,9 +7,10 @@ import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+
+import ShinyText from './ShinyText';
 
 const Feedback = () => {
 
@@ -18,7 +19,11 @@ const Feedback = () => {
         <DropdownMenuTrigger asChild>
             <Button variant="outline">
                 <MessageCircleMore className="h-[1.2rem] w-[1.2rem] rotate-0 transition-all" />
-                <span className="">Feedback</span>
+                <ShinyText 
+                    text="Feedback" 
+                    disabled={false} 
+                    speed={3} 
+                    className='' />
             </Button>
         </DropdownMenuTrigger>
         
