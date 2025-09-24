@@ -1,13 +1,12 @@
 "use client"
 
 import { useRef, useState } from "react";
-import { CloudUpload } from "lucide-react"
+import { CloudUpload, X } from "lucide-react"
 
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 
 export default function Home() {
-
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const openExplorer = () => {
@@ -20,6 +19,8 @@ export default function Home() {
       setFile(files[0]);
     }
   }
+
+  const removeFile = () => { setFile(null); }
 
   return (
     <div className="flex min-h-screen flex-col mx-10">      
@@ -39,10 +40,17 @@ export default function Home() {
 
         <section id="converter" className="flex items-center justify-center mt-20">
           {file ? (
-              <div className="flex items-center w-full h-16 max-w-3xl border rounded-lg border-black dark:border-white gap-2">
-                <span className="ml-5 font-semibold text-sm">{file.name}</span>
-                <span className="font-light text-sm opacity-50">{(file.size / (1024 * 1024)).toFixed(2)}MB</span>
+              <div className="flex items-center w-full h-16 max-w-3xl border rounded-lg border-black dark:border-white">
+                <div className="ml-5 space-x-2">
+                  <span className="font-semibold text-sm">{file.name}</span>
+                  <span className="font-light text-sm opacity-50">{(file.size / (1024 * 1024)).toFixed(2)}MB</span>
+                </div>
+
+                <div onClick={removeFile} className="ml-auto mr-5">
+                  <X className="h-[1rem] w-[1rem] rotate-0 transition-all cursor-pointer" strokeWidth={2}/>
+                </div>
               </div>
+            
             ) : (
               <div className="w-full h-52 max-w-3xl border-2 border-dashed rounded-xl border-black dark:border-white">
                 <div onClick={openExplorer} className="flex w-full h-full items-center justify-center gap-2 opacity-70 cursor-pointer">
