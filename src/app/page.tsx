@@ -39,8 +39,9 @@ export default function Home() {
 
         <section id="converter" className="flex items-center justify-center mt-20">
           {file ? (
-              <div className="flex items-center w-full h-16 max-w-3xl border rounded-lg border-black dark:border-white">
+              <div className="flex items-center w-full h-16 max-w-3xl border rounded-lg border-black dark:border-white gap-2">
                 <span className="ml-5 font-semibold text-sm">{file.name}</span>
+                <span className="font-light text-sm opacity-50">{(file.size / (1024 * 1024)).toFixed(2)}MB</span>
               </div>
             ) : (
               <div className="w-full h-52 max-w-3xl border-2 border-dashed rounded-xl border-black dark:border-white">
