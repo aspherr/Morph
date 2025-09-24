@@ -1,9 +1,26 @@
-import Image from "next/image";
+"use client"
+
+import { useRef, useState } from "react";
+import { CloudUpload } from "lucide-react"
 
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 
 export default function Home() {
+
+  const [file, setFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const openExplorer = () => {
+    fileInputRef.current?.click();
+  }
+
+  const loadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      setFile(files[0]);
+    }
+  }
+
   return (
     <div className="flex min-h-screen flex-col mx-10">      
       <section id="navbar">
@@ -18,6 +35,30 @@ export default function Home() {
               Upload your files and get them back in the format you need—fast, secure, and free.
             </p>
           </div>
+        </section>
+
+        <section id="converter" className="flex items-center justify-center mt-20">
+          {file ? (
+              <div className="flex items-center w-full h-16 max-w-3xl border rounded-lg border-black dark:border-white">
+                <span className="ml-5 font-semibold text-sm">{file.name}</span>
+              </div>
+            ) : (
+              <div className="w-full h-52 max-w-3xl border-2 border-dashed rounded-xl border-black dark:border-white">
+                <div onClick={openExplorer} className="flex w-full h-full items-center justify-center gap-2 opacity-70 cursor-pointer">
+                  <CloudUpload className="h-[2rem] w-[2rem] rotate-0 transition-all" strokeWidth={1}/>
+                  <span className="font-semibold text-lg:">
+                    Upload or Drop Your File Here
+                  </span>
+
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={loadFile}
+                    className="hidden"
+                  />
+                </div>
+              </div>
+            )}
         </section>
       </main>
 

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useTheme } from "next-themes";
 
 interface ShinyTextProps {
@@ -9,9 +10,11 @@ interface ShinyTextProps {
 
 const ShinyText: React.FC<ShinyTextProps> = ({ text, disabled = false, speed = 5, className = '' }) => {
   const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const animationDuration = `${speed}s`;
 
-  const gradient = resolvedTheme === "dark"
+  const gradient = mounted && resolvedTheme === "dark"
   ? "rgba(255, 255, 255, 0.8) 50%"
   : "rgba(0,0,0, 0.8) 50%"
 
