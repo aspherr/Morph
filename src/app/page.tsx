@@ -5,13 +5,15 @@ import { CloudUpload, FileCheck2, X, Loader2Icon } from "lucide-react"
 import { toast } from "sonner"
 
 import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
+import Selector from "@/components/selector";
+import Footer from "@/components/footer";
 
 
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [drag, setDrag] = useState(false);
+  const [disabled, setDisabled] = useState("");
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   
   const openExplorer = () => {
@@ -54,7 +56,7 @@ export default function Home() {
     "Release To Upload Your File"
     : "Upload Or Drop Your File Here"
 
-  const removeFile = () => { setFile(null); }
+  const removeFile = () => { setFile(null); setDisabled("") }
 
   return (
     <div className="flex min-h-screen flex-col mx-10">      
@@ -75,19 +77,25 @@ export default function Home() {
         <section id="converter" className="flex items-center justify-center mt-20">
           {file ? (
             <div className="flex w-full max-w-3xl flex-col">
-              <div className="flex items-center w-full h-16 border rounded-lg border-black dark:border-white">
+              <div className="flex items-center w-full h-18 border rounded-lg border-black dark:border-white">
                 <div className="ml-5 space-x-2">
                   <span className="font-semibold text-sm">{file.name}</span>
                   <span className="font-light text-sm opacity-50">{(file.size / (1024 * 1024)).toFixed(2)}MB</span>
                 </div>
 
-                <div onClick={removeFile} className="ml-auto mr-5 rounded-full p-1 bg-background hover:text-accent-foreground hover:bg-accent dark:hover:bg-input/50 transistion-all duration-300">
-                  <X className="h-[1rem] w-[1rem] rotate-0 transition-all cursor-pointer" strokeWidth={2}/>
+                <div className="flex items-center ml-auto">
+                  <div className="mr-10">
+                    <Selector value={disabled} onChange={setDisabled}/>
+                  </div>
+
+                  <div onClick={removeFile} className="mr-5 rounded-full p-1 bg-background hover:text-accent-foreground hover:bg-accent dark:hover:bg-input/50 transistion-all duration-300">
+                    <X className="h-[1rem] w-[1rem] rotate-0 transition-all cursor-pointer" strokeWidth={2}/>
+                  </div>
                 </div>
               </div>
               
               <div className="flex flex-wrap justify-end mt-4">
-                <Button disabled>
+                <Button disabled={!disabled}>
                   <span className="text-md">Convert</span>
                 </Button>
               </div>
