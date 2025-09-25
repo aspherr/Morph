@@ -102,7 +102,7 @@ export default function Home() {
               <div className="flex items-center w-full h-18 border rounded-lg border-black dark:border-white">
                 <div className="flex flex-row ml-5 space-x-2 items-center">
                   {fileIcon}
-                  <span className="font-semibold text-sm">{file.name}</span>
+                  <span className="font-semibold text-sm truncate max-w-[200px]">{file.name}</span>
                   <span className="font-light text-sm opacity-50">{(file.size / (1024 * 1024)).toFixed(2)}MB</span>
                 </div>
 
