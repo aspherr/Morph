@@ -1,11 +1,12 @@
 "use client"
 
 import { useRef, useState, DragEvent } from "react";
-import { CloudUpload, FileCheck2, X } from "lucide-react"
+import { CloudUpload, FileCheck2, X, Loader2Icon } from "lucide-react"
 import { toast } from "sonner"
 
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import { Button } from "@/components/ui/button";
 
 
 export default function Home() {
@@ -73,7 +74,8 @@ export default function Home() {
 
         <section id="converter" className="flex items-center justify-center mt-20">
           {file ? (
-              <div className="flex items-center w-full h-16 max-w-3xl border rounded-lg border-black dark:border-white">
+            <div className="flex w-full max-w-3xl flex-col">
+              <div className="flex items-center w-full h-16 border rounded-lg border-black dark:border-white">
                 <div className="ml-5 space-x-2">
                   <span className="font-semibold text-sm">{file.name}</span>
                   <span className="font-light text-sm opacity-50">{(file.size / (1024 * 1024)).toFixed(2)}MB</span>
@@ -83,6 +85,13 @@ export default function Home() {
                   <X className="h-[1rem] w-[1rem] rotate-0 transition-all cursor-pointer" strokeWidth={2}/>
                 </div>
               </div>
+              
+              <div className="flex flex-wrap justify-end mt-4">
+                <Button disabled>
+                  <span className="text-md">Convert</span>
+                </Button>
+              </div>
+            </div>
             
             ) : (
               <div className={`w-full h-52 max-w-3xl border-3 border-dashed rounded-xl ${drag ? "border-green-500" : "border-black dark:border-white"}`}>
