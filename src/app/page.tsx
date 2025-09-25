@@ -1,24 +1,49 @@
 "use client"
 
-import { useRef, useState } from "react";
-import { CloudUpload, X } from "lucide-react"
+import { useRef, useState, DragEvent } from "react";
+import { CloudUpload, FileCheck2, X } from "lucide-react"
 
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
+  const [drag, setDrag] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  
   const openExplorer = () => {
     fileInputRef.current?.click();
   }
 
-  const loadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const uploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
       setFile(files[0]);
     }
   }
+  
+  const handleDragOver = (e: DragEvent<HTMLInputElement>) => { e.preventDefault(); setDrag(true); }
+
+  const handleDragLeave = (e: DragEvent<HTMLInputElement>) => { e.preventDefault(); setDrag(false); }
+
+  const dragAndDropFile = (e: DragEvent<HTMLInputElement>) => {
+    e.preventDefault();        
+    e.stopPropagation();
+    setDrag(false);
+
+    const files = e.dataTransfer.files;
+    if (files && files[0]) {
+      setFile(files[0]);
+    }
+  }
+
+  const uploadIcon = drag ? 
+    <FileCheck2 className="h-[1.75rem] w-[1.75rem] rotate-0 transition-all" strokeWidth={1.5}/>
+    : <CloudUpload className="h-[1.75rem] w-[1.75rem] rotate-0 transition-all" strokeWidth={1.5}/>
+  
+  const uploadText = drag ?
+    "Release To Upload Your File"
+    : "Upload Or Drop Your File Here"
 
   const removeFile = () => { setFile(null); }
 
@@ -46,23 +71,28 @@ export default function Home() {
                   <span className="font-light text-sm opacity-50">{(file.size / (1024 * 1024)).toFixed(2)}MB</span>
                 </div>
 
-                <div onClick={removeFile} className="ml-auto mr-5 rounded-full p-1 hover:bg-neutral-800 transition-all duration-500">
+                <div onClick={removeFile} className="ml-auto mr-5 rounded-full p-1 bg-background hover:text-accent-foreground hover:bg-accent dark:hover:bg-input/50 transistion-all duration-300">
                   <X className="h-[1rem] w-[1rem] rotate-0 transition-all cursor-pointer" strokeWidth={2}/>
                 </div>
               </div>
             
             ) : (
-              <div className="w-full h-52 max-w-3xl border-2 border-dashed rounded-xl border-black dark:border-white">
-                <div onClick={openExplorer} className="flex w-full h-full items-center justify-center gap-2 opacity-70 cursor-pointer">
-                  <CloudUpload className="h-[2rem] w-[2rem] rotate-0 transition-all" strokeWidth={1}/>
-                  <span className="font-semibold text-lg:">
-                    Upload or Drop Your File Here
+              <div className={`w-full h-52 max-w-3xl border-3 border-dashed rounded-xl ${drag ? "border-green-500" : "border-black dark:border-white"}`}>
+                <div 
+                onClick={openExplorer}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={dragAndDropFile}
+                className="flex w-full h-full items-center justify-center gap-2 opacity-70 cursor-pointer">
+                  {uploadIcon}
+                  <span className="font-semibold text-lg">
+                    {uploadText}
                   </span>
-
+                
                   <input
                     type="file"
                     ref={fileInputRef}
-                    onChange={loadFile}
+                    onChange={uploadFile}
                     className="hidden"
                   />
                 </div>
