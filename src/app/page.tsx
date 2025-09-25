@@ -2,9 +2,11 @@
 
 import { useRef, useState, DragEvent } from "react";
 import { CloudUpload, FileCheck2, X } from "lucide-react"
+import { toast } from "sonner"
 
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+
 
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
@@ -19,7 +21,10 @@ export default function Home() {
     const files = e.target.files;
     if (files && files.length > 0) {
       setFile(files[0]);
+      toast.success("File has been uploaded successfully.");
+      return;
     }
+    toast.error("Failed to upload file");
   }
   
   const handleDragOver = (e: DragEvent<HTMLInputElement>) => { e.preventDefault(); setDrag(true); }
@@ -34,7 +39,10 @@ export default function Home() {
     const files = e.dataTransfer.files;
     if (files && files[0]) {
       setFile(files[0]);
+      toast.success("File has been uploaded successfully.");
+      return;
     }
+     toast.error("Failed to upload file");
   }
 
   const uploadIcon = drag ? 
