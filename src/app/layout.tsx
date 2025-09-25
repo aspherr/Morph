@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 
 const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-inter", // optional CSS variable for tailwind
+  variable: "--font-inter",
 })
 
 export const metadata: Metadata = {
