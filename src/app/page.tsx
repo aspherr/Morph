@@ -46,7 +46,7 @@ export default function Home() {
                   <span className="font-light text-sm opacity-50">{(file.size / (1024 * 1024)).toFixed(2)}MB</span>
                 </div>
 
-                <div onClick={removeFile} className="ml-auto mr-5">
+                <div onClick={removeFile} className="ml-auto mr-5 rounded-full p-1 hover:bg-neutral-800 transition-all duration-500">
                   <X className="h-[1rem] w-[1rem] rotate-0 transition-all cursor-pointer" strokeWidth={2}/>
                 </div>
               </div>
