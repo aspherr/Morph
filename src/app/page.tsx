@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useState, DragEvent } from "react";
-import { CloudUpload, FileCheck2, X, Loader2Icon } from "lucide-react"
+import { CloudUpload, File, FileCheck2, X, Image, FileText, AudioLines, Video, Archive } from "lucide-react"
 import { toast } from "sonner"
 
 import Navbar from "@/components/navbar";
@@ -58,6 +58,28 @@ export default function Home() {
 
   const removeFile = () => { setFile(null); setDisabled("") }
 
+  const getFileIcon = (ext: string) => {
+    const imageExts = ["jpg", "jpeg", "png", "webp", "avif", "heic", "gif", "svg"]
+    const docExts = ["pdf", "doc", "docx", "ppt", "pptx", "xls", "xlsx", "odt", "txt", "md", "html", "csv", "json", "xml"]
+    const audioExts = ["mp3", "wav", "aac", "flac", "ogg", "opus", "m4a"]
+    const videoExts = ["mp4", "webm", "mov", "avi", "mkv"]
+    const archiveExts = ["zip", "tar", "gz", "7z", "rar"]
+
+    const lower = ext.toLowerCase()
+    const classes = "h-[1.25rem] w-[1.25rem] rotate-0 transition-all cursor-pointer"
+
+    if (imageExts.includes(lower)) return <Image className={classes} strokeWidth={2}/>
+    if (docExts.includes(lower)) return <FileText className={classes} strokeWidth={2}/>
+    if (audioExts.includes(lower)) return <AudioLines className={classes} strokeWidth={2}/>
+    if (videoExts.includes(lower)) return <Video className={classes} strokeWidth={2}/>
+    if (archiveExts.includes(lower)) return <Archive className={classes} strokeWidth={2}/>
+
+    return <File className={classes} strokeWidth={2}/>
+  }
+
+  const ext = file?.name.split(".").pop() || ""
+  const fileIcon = getFileIcon(ext)
+
   return (
     <div className="flex min-h-screen flex-col mx-10">      
       <section id="navbar">
@@ -78,7 +100,8 @@ export default function Home() {
           {file ? (
             <div className="flex w-full max-w-3xl flex-col">
               <div className="flex items-center w-full h-18 border rounded-lg border-black dark:border-white">
-                <div className="ml-5 space-x-2">
+                <div className="flex flex-row ml-5 space-x-2 items-center">
+                  {fileIcon}
                   <span className="font-semibold text-sm">{file.name}</span>
                   <span className="font-light text-sm opacity-50">{(file.size / (1024 * 1024)).toFixed(2)}MB</span>
                 </div>
