@@ -20,11 +20,12 @@ import {
 } from "@/components/ui/popover";
 
 type SelectorProps = {
-  value: string
-  onChange: (val: string) => void
+    value: string
+    extension: string
+    onChange: (val: string) => void
 }
 
-const Selector = ({ value, onChange }: SelectorProps) => {
+const Selector = ({ value, extension, onChange }: SelectorProps) => {
     const formats = [
     // Images
     { value: "jpg", label: "JPG" },
@@ -73,8 +74,28 @@ const Selector = ({ value, onChange }: SelectorProps) => {
     { value: "rar", label: "RAR" },
     ];
 
+    const getAvailableFormats = (ext: string) => {
+        const categories = {
+            image: ["jpg", "jpeg", "png", "webp", "avif", "heic", "gif", "svg"],
+            document: ["pdf", "doc", "docx", "ppt", "pptx", "xls", "xlsx", "odt", "txt", "md", "html", "csv", "json", "xml"],
+            audio: ["mp3", "wav", "aac", "flac", "ogg", "opus", "m4a"],
+            video: ["mp4", "webm", "mov", "avi", "mkv"],
+            archive: ["zip", "tar", "gz", "7z", "rar"],
+        };
 
-    const [open, setOpen] = useState(false)
+        const lower = ext.toLowerCase()
+
+        for (const exts of Object.values(categories)) {
+            if (exts.includes(lower)) {
+            return formats.filter(f => exts.includes(f.value));
+            }
+        }
+
+        return []
+    }
+
+    const [open, setOpen] = useState(false);
+    const availableFormats = getAvailableFormats(extension); 
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -97,10 +118,10 @@ const Selector = ({ value, onChange }: SelectorProps) => {
             <CommandList>
                 <CommandEmpty>No format found.</CommandEmpty>
                 <CommandGroup>
-                {formats.map((formats) => (
+                {availableFormats.map((fmt) => (
                     <CommandItem
-                    key={formats.value}
-                    value={formats.value}
+                    key={fmt.value}
+                    value={fmt.value}
                     onSelect={(currentValue) => {
                         onChange(currentValue);
                         setOpen(false);
@@ -109,10 +130,10 @@ const Selector = ({ value, onChange }: SelectorProps) => {
                     <CheckIcon
                         className={cn(
                         "mr-2 h-4 w-4",
-                        value === formats.value ? "opacity-100" : "opacity-0"
+                        value === fmt.value ? "opacity-100" : "opacity-0"
                         )}
                     />
-                    {formats.label}
+                    {fmt.label}
                     </CommandItem>
                 ))}
                 </CommandGroup>

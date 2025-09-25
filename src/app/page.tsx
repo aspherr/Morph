@@ -108,7 +108,7 @@ export default function Home() {
 
                 <div className="flex items-center ml-auto">
                   <div className="mr-10">
-                    <Selector value={disabled} onChange={setDisabled}/>
+                    <Selector value={disabled} extension={ext} onChange={setDisabled}/>
                   </div>
 
                   <div onClick={removeFile} className="mr-5 rounded-full p-1 bg-background hover:text-accent-foreground hover:bg-accent dark:hover:bg-input/50 transistion-all duration-300">
