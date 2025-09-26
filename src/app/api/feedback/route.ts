@@ -17,7 +17,7 @@ export async function POST(req: Request) {
             <div style="font-family: var(--font-inter), Arial, sans-serif; background-color: #f9fafb; padding: 20px; color: #111827;">
                 <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); overflow: hidden;">
                 <tr>
-                    <td style="background-color: oklch(0.145 0 0); padding: 20px; text-align: center;">
+                    <td style="background-color: #0a0a0a; padding: 20px; text-align: center;">
                     <img src="${siteUrl}/images/email-logo.png" alt="Morph Logo" style="max-width: 120px;"/>
                     </td>
                 </tr>
