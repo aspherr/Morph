@@ -1,12 +1,7 @@
 import { NextResponse } from 'next/server';
 import { Resend } from "resend";
-import fs from "fs";
-import path from "path";
 
-export async function POST(req: Request) {
-    const logoPath = path.join(process.cwd(), "public/images/dark-logo.png");
-    const logoBuffer = fs.readFileSync(logoPath);  
-         
+export async function POST(req: Request) {         
     try {
         const { message } = await req.json();
         const resend = new Resend(process.env.RESEND_API_KEY);
@@ -39,14 +34,6 @@ export async function POST(req: Request) {
                 </table>
             </div>
             `,
-            attachments: [
-                {
-                    content: logoBuffer,
-                    filename: "dark-logo.svg",
-                    contentType: "image/svg+xml",
-                    contentId: "logo-image"
-                }
-            ],
         })
 
         if (error) {
