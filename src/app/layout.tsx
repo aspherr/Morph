@@ -5,6 +5,7 @@ import { ThemeProvider } from "next-themes";
 
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
+import ClickSpark from '@/components/ClickSpark';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -36,12 +37,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn("min-h-screen flex flex-col bg-background text-foreground", geistSans.className, geistMono.className, inter.className)}>
-
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
-        </ThemeProvider>
-
-        <Toaster />
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            {children}
+          </ThemeProvider>
+          
+          <Toaster />
       </body>
     </html>
   );
