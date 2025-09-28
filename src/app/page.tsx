@@ -105,7 +105,7 @@ export default function Home() {
           <section id="hero" className="mt-20">
             <div className="flex flex-col items-center justify-center space-y-4">
               <h1 className="font-semibold text-4xl xs:text-4xl sm:text-5xl md:text-5xl lg:text-6xl leading-tight">Convert Any File. Instantly.</h1>
-              <p className="font-light text-md">
+              <p className="font-light text-md md:text-md lg:text-lg">
                 Upload your files and get them back in the format you need—fast, secure, and free.
               </p>
             </div>
