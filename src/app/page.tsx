@@ -114,7 +114,7 @@ export default function Home() {
           <section id="converter" className="flex items-center justify-center mt-10 md:mt-20">
             {file ? (
               <div className="flex w-full max-w-3xl flex-col">
-                <div className="flex items-center w-full h-18 border rounded-lg border-black dark:border-white">
+                <div className="relative flex flex-wrap sm:flex-row items-center w-full h-18 border rounded-lg border-black dark:border-white ">
                   <div className="flex flex-row ml-5 space-x-2 items-center">
                     {fileIcon}
                     <span className="font-semibold text-sm truncate max-w-[200px]">{file.name}</span>
@@ -126,7 +126,7 @@ export default function Home() {
                       <Selector value={disabled} extension={ext} onChange={setDisabled}/>
                     </div>
 
-                    <div onClick={removeFile} className="mr-5 rounded-full p-1 bg-background hover:text-accent-foreground hover:bg-accent dark:hover:bg-input/50 transistion-all duration-300">
+                    <div onClick={removeFile} className="absolute -top-2 -right-2 pointer-events-auto sm:static sm:ml-4 sm:mr-5 border sm:border-none border-black dark:border-white rounded-full p-1 bg-background hover:text-accent-foreground hover:bg-accent dark:hover:bg-input/50 transistion-all duration-300">
                       <X className="h-[1rem] w-[1rem] rotate-0 transition-all cursor-pointer" strokeWidth={2}/>
                     </div>
                   </div>
