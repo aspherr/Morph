@@ -104,7 +104,7 @@ const Selector = ({ value, extension, onChange }: SelectorProps) => {
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-[200px] justify-between"
+            className="w-full md:w-[200px] justify-between"
             >
             {value
                 ? formats.find((formats) => formats.value === value)?.label

@@ -114,19 +114,19 @@ export default function Home() {
           <section id="converter" className="flex items-center justify-center mt-10 md:mt-20">
             {file ? (
               <div className="flex w-full max-w-3xl flex-col">
-                <div className="relative flex flex-wrap sm:flex-row items-center w-full h-18 border rounded-lg border-black dark:border-white ">
-                  <div className="flex flex-row ml-5 space-x-2 items-center">
+                <div className="relative flex flex-wrap sm:flex-row items-center w-full h-28 md:h-18 border rounded-lg border-black dark:border-white ">
+                  <div className="flex flex-row ml-7 mt-2 sm:mt-0 space-x-2 items-center justify-center text-sm">
                     {fileIcon}
-                    <span className="font-semibold text-sm truncate max-w-[200px]">{file.name}</span>
-                    <span className="font-light text-sm opacity-50">{(file.size / (1024 * 1024)).toFixed(3)}MB</span>
+                    <span className="font-semibold truncate max-w-[100px] sm:max-w-[200px]">{file.name}</span>
+                    <span className="font-light opacity-50">{(file.size / (1024 * 1024)).toFixed(3)}MB</span>
                   </div>
 
-                  <div className="flex items-center ml-auto">
-                    <div className="mr-10">
+                  <div className="flex items-center w-full md:w-auto mr-auto md:mr-0 md:ml-auto">
+                    <div className="ml-5 mr-5 mb-4 md:mb-0 md:ml-0 w-full">
                       <Selector value={disabled} extension={ext} onChange={setDisabled}/>
                     </div>
 
-                    <div onClick={removeFile} className="absolute -top-2 -right-2 pointer-events-auto sm:static sm:ml-4 sm:mr-5 border sm:border-none border-black dark:border-white rounded-full p-1 bg-background hover:text-accent-foreground hover:bg-accent dark:hover:bg-input/50 transistion-all duration-300">
+                    <div onClick={removeFile} className="absolute -top-2 -right-2 pointer-events-auto sm:static sm:ml-4 sm:mr-7 rounded-full p-1 bg-accent md:bg-background hover:text-accent-foreground hover:bg-accent dark:hover:bg-input/50 transistion-all duration-300">
                       <X className="h-[1rem] w-[1rem] rotate-0 transition-all cursor-pointer" strokeWidth={2}/>
                     </div>
                   </div>
