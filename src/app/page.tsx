@@ -111,7 +111,7 @@ export default function Home() {
             </div>
           </section>
 
-          <section id="converter" className="flex items-center justify-center mt-20">
+          <section id="converter" className="flex items-center justify-center mt-10 md:mt-20">
             {file ? (
               <div className="flex w-full max-w-3xl flex-col">
                 <div className="flex items-center w-full h-18 border rounded-lg border-black dark:border-white">
@@ -140,15 +140,15 @@ export default function Home() {
               </div>
               
               ) : (
-                <div className={`w-full h-52 max-w-3xl border-3 border-dashed rounded-xl ${drag ? "border-green-500" : "border-black dark:border-white"}`}>
+                <div className={`flex w-full h-52 max-w-3xl border-3 border-dashed rounded-xl ${drag ? "border-green-500" : "border-black dark:border-white"}`}>
                   <div 
                   onClick={openExplorer}
                   onDragOver={handleDragOver}
                   onDragLeave={handleDragLeave}
                   onDrop={dragAndDropFile}
-                  className="flex w-full h-full items-center justify-center gap-2 opacity-70 cursor-pointer">
+                  className="flex flex-col sm:flex-row w-full h-full items-center justify-center gap-2 opacity-70 cursor-pointer">
                     {uploadIcon}
-                    <span className="font-semibold text-lg">
+                    <span className="font-semibold text-sm sm:text-sm md:text-md lg:text-lg">
                       {uploadText}
                     </span>
                   
