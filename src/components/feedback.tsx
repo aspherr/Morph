@@ -56,7 +56,7 @@ const Feedback = () => {
                         text="Feedback" 
                         disabled={false} 
                         speed={3} 
-                        className='' />
+                        className='hidden' />
                 </Button>
             </DropdownMenuTrigger>
             
