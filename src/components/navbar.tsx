@@ -34,16 +34,12 @@ const Navbar = () => {
       : resolvedTheme === "dark"
       ? "/images/dark-logo.svg"
       : "/images/light-logo.svg";
-
-    const openFeedback = () => {}
     
     return (
-        <nav className="w-full flex items-center justify-between border-b-white mt-10">
-            <div>
-                <a href="/">
-                    <Image src={src} alt="Morph Logo" width={150} height={150} />
-                </a>
-            </div>
+        <nav className="w-full flex items-center justify-between border-b-white">
+            <a href="/" className="relative w-[150px] h-[150px]">
+                <Image src={src} alt="Morph Logo" fill className="object-contain" priority />
+            </a>
 
             <ul className="hidden md:flex items-center space-x-4">
                 <li>
