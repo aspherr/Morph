@@ -38,7 +38,7 @@ const Navbar = () => {
     return (
         <nav className="w-full flex items-center justify-between border-b-white">
             <a href="/" className="relative w-[150px] h-[150px]">
-                <Image src={src} alt="Morph Logo" fill className="object-contain" priority />
+                <Image src={src} alt="Morph Logo" fill className="object-contain"/>
             </a>
 
             <ul className="hidden md:flex items-center space-x-4">
