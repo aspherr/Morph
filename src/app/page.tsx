@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useEffect, useState, DragEvent } from "react";
-import { CloudUpload, File, FileCheck2, X, Image, FileText, AudioLines, Video, Archive } from "lucide-react"
+import { Upload, File, FileCheck2, X, Image, FileText, AudioLines, Video, Archive } from "lucide-react"
 import { useTheme } from "next-themes";
 import { toast } from "sonner"
 
@@ -57,8 +57,8 @@ export default function Home() {
   }
 
   const uploadIcon = drag ? 
-    <FileCheck2 className="h-[1.75rem] w-[1.75rem] rotate-0 transition-all" strokeWidth={1.5}/>
-    : <CloudUpload className="h-[1.75rem] w-[1.75rem] rotate-0 transition-all" strokeWidth={1.5}/>
+    <FileCheck2 className="h-[1.5rem] w-[1.5rem] rotate-0 transition-all" strokeWidth={1.5}/>
+    : <Upload className="h-[1.5rem] w-[1.5rem] rotate-0 transition-all" strokeWidth={1.5}/>
   
   const uploadText = drag ?
     "Release To Upload Your File"
