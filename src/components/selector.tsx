@@ -27,60 +27,40 @@ type SelectorProps = {
 
 const Selector = ({ value, extension, onChange }: SelectorProps) => {
     const formats = [
-    // Images
-    { value: "jpg", label: "JPG" },
-    { value: "png", label: "PNG" },
-    { value: "webp", label: "WebP" },
-    { value: "avif", label: "AVIF" },
-    { value: "heic", label: "HEIC" },
-    { value: "gif", label: "GIF" },
-    { value: "svg", label: "SVG" },
+        // Images
+        { value: "jpg", label: "JPG" },
+        { value: "png", label: "PNG" },
+        { value: "webp", label: "WebP" },
+        { value: "gif", label: "GIF" },
+        { value: "svg", label: "SVG" },
 
-    // Documents
-    { value: "pdf", label: "PDF" },
-    { value: "docx", label: "DOCX (Word)" },
-    { value: "pptx", label: "PPTX (PowerPoint)" },
-    { value: "xlsx", label: "XLSX (Excel)" },
-    { value: "odt", label: "ODT (OpenDocument Text)" },
-    { value: "txt", label: "TXT (Plain Text)" },
-    { value: "md", label: "Markdown (MD)" },
-    { value: "html", label: "HTML" },
+        // Documents
+        { value: "pdf", label: "PDF" },
+        { value: "docx", label: "DOCX (Word)" },
+        { value: "xlsx", label: "XLSX (Excel)" },
+        { value: "txt", label: "TXT (Plain Text)" },
+        { value: "md", label: "Markdown (MD)" },
+        { value: "html", label: "HTML" },
 
-    // Data
-    { value: "csv", label: "CSV" },
-    { value: "json", label: "JSON" },
-    { value: "xml", label: "XML" },
+        // Data
+        { value: "csv", label: "CSV" },
 
-    // Audio
-    { value: "mp3", label: "MP3" },
-    { value: "wav", label: "WAV" },
-    { value: "aac", label: "AAC / M4A" },
-    { value: "flac", label: "FLAC" },
-    { value: "ogg", label: "OGG" },
-    { value: "opus", label: "OPUS" },
+        // Audio
+        { value: "mp3", label: "MP3" },
+        { value: "wav", label: "WAV" },
+        { value: "ogg", label: "OGG" },
 
-    // Video
-    { value: "mp4", label: "MP4 (H.264)" },
-    { value: "webm", label: "WebM" },
-    { value: "mov", label: "MOV" },
-    { value: "avi", label: "AVI" },
-    { value: "mkv", label: "MKV" },
-
-    // Archives
-    { value: "zip", label: "ZIP" },
-    { value: "tar", label: "TAR" },
-    { value: "gz", label: "GZ" },
-    { value: "7z", label: "7z" },
-    { value: "rar", label: "RAR" },
+        // Video
+        { value: "mp4", label: "MP4 (H.264)" },
+        { value: "webm", label: "WebM" }
     ];
 
     const getAvailableFormats = (ext: string) => {
         const categories = {
-            image: ["jpg", "jpeg", "png", "webp", "avif", "heic", "gif", "svg"],
-            document: ["pdf", "doc", "docx", "ppt", "pptx", "xls", "xlsx", "odt", "txt", "md", "html", "csv", "json", "xml"],
-            audio: ["mp3", "wav", "aac", "flac", "ogg", "opus", "m4a"],
-            video: ["mp4", "webm", "mov", "avi", "mkv"],
-            archive: ["zip", "tar", "gz", "7z", "rar"],
+            image: ["jpg", "png", "webp", "gif", "svg"],
+            document: ["pdf", "docx", "xlsx", "txt", "md", "html", "csv"],
+            audio: ["mp3", "wav", "ogg"],
+            video: ["mp4", "webm"],
         };
 
         const lower = ext.toLowerCase()

@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useEffect, useState, DragEvent } from "react";
-import { Upload, File, FileCheck2, X, Image, FileText, AudioLines, Video, Archive } from "lucide-react"
+import { Upload, File, FileCheck2, X, Image, FileText, AudioLines, Video } from "lucide-react"
 import { useTheme } from "next-themes";
 import { toast } from "sonner"
 
@@ -67,11 +67,10 @@ export default function Home() {
   const removeFile = () => { setFile(null); setDisabled("") }
 
   const getFileIcon = (ext: string) => {
-    const imageExts = ["jpg", "jpeg", "png", "webp", "avif", "heic", "gif", "svg"]
-    const docExts = ["pdf", "doc", "docx", "ppt", "pptx", "xls", "xlsx", "odt", "txt", "md", "html", "csv", "json", "xml"]
-    const audioExts = ["mp3", "wav", "aac", "flac", "ogg", "opus", "m4a"]
-    const videoExts = ["mp4", "webm", "mov", "avi", "mkv"]
-    const archiveExts = ["zip", "tar", "gz", "7z", "rar"]
+    const imageExts = ["jpg", "png", "webp", "gif", "svg"]
+    const docExts = ["pdf", "docx", "xlsx", "txt", "md", "html", "csv"]
+    const audioExts = ["mp3", "wav", "ogg"]
+    const videoExts = ["mp4", "webm"]
 
     const lower = ext.toLowerCase()
     const classes = "h-[1.25rem] w-[1.25rem] rotate-0 transition-all cursor-pointer"
@@ -80,7 +79,6 @@ export default function Home() {
     if (docExts.includes(lower)) return <FileText className={classes} strokeWidth={2}/>
     if (audioExts.includes(lower)) return <AudioLines className={classes} strokeWidth={2}/>
     if (videoExts.includes(lower)) return <Video className={classes} strokeWidth={2}/>
-    if (archiveExts.includes(lower)) return <Archive className={classes} strokeWidth={2}/>
 
     return <File className={classes} strokeWidth={2}/>
   }
