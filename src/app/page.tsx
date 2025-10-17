@@ -9,6 +9,7 @@ import Navbar from "@/components/navbar";
 import { Button } from "@/components/ui/button";
 import ClickSpark from "@/components/ClickSpark";
 import Selector from "@/components/selector";
+import { Spinner } from "@/components/ui/spinner"
 import Footer from "@/components/footer";
 
 import convertImage, { ImageFormat } from "@/lib/convert/images" 
@@ -22,6 +23,7 @@ export default function Home() {
   const [url, setUrl] = useState<string | null>(null);
   const [drag, setDrag] = useState(false);
   const [disabled, setDisabled] = useState("");
+  const [busy, setBusy] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => setMounted(true), []);
@@ -91,6 +93,7 @@ export default function Home() {
   const fileIcon = getFileIcon(ext)
 
   const handleConversion = async () => {
+    setBusy(true);
     if (!file) {
       console.error("No file found.");
       return;
@@ -99,8 +102,7 @@ export default function Home() {
     try {
       const res = await convertImage(file, format as ImageFormat);
       setUrl(res.url);
-      console.log(res.url);
-      console.log(format);
+      setBusy(false);
 
     } catch (error) {
       console.error("Conversion failed:", error);
@@ -138,6 +140,9 @@ export default function Home() {
                     {fileIcon}
                     <span className="font-semibold truncate max-w-[100px] sm:max-w-[200px]">{file.name}</span>
                     <span className="font-light opacity-50">{(file.size / (1024 * 1024)).toFixed(3)}MB</span>
+                    {busy && (
+                      <Spinner />
+                    )}
                   </div>
 
                   <div className="flex items-center w-full md:w-auto mr-auto md:mr-0 md:ml-auto">
@@ -152,15 +157,18 @@ export default function Home() {
                 </div>
                 
                 <div className="flex flex-wrap justify-end mt-4 gap-3">
-                  {url && (
+                  {url ? (
                     <Button asChild>
                       <a href={url} download={`${file.name.replace(/\.[^/.]+$/, "")}.${format}`} className="text-md">Download</a>
                     </Button>
-                  )}
 
-                  <Button disabled={!disabled} onClick={handleConversion}>
-                    <span className="text-md">Convert</span>
-                  </Button>
+                  ) : (
+                    <Button disabled={!disabled} onClick={handleConversion}>
+                      <span className="text-md">
+                        {busy ? "Converting..." : "Convert"}
+                      </span>
+                    </Button>
+                  )}
                 </div>
               </div>
               
