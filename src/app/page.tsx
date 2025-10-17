@@ -11,11 +11,15 @@ import ClickSpark from "@/components/ClickSpark";
 import Selector from "@/components/selector";
 import Footer from "@/components/footer";
 
+import convertImage, { ImageFormat } from "@/lib/convert/images" 
+
 
 export default function Home() {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [file, setFile] = useState<File | null>(null);
+  const [format, setFormat] = useState("");
+  const [url, setUrl] = useState<string | null>(null);
   const [drag, setDrag] = useState(false);
   const [disabled, setDisabled] = useState("");
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -86,6 +90,23 @@ export default function Home() {
   const ext = file?.name.split(".").pop() || ""
   const fileIcon = getFileIcon(ext)
 
+  const handleConversion = async () => {
+    if (!file) {
+      console.error("No file found.");
+      return;
+    }
+
+    try {
+      const res = await convertImage(file, format as ImageFormat);
+      setUrl(res.url);
+      console.log(res.url);
+      console.log(format);
+
+    } catch (error) {
+      console.error("Conversion failed:", error);
+    }
+  }
+
   return (
     <div className="flex min-h-screen flex-col mx-10">
       <ClickSpark
@@ -121,7 +142,7 @@ export default function Home() {
 
                   <div className="flex items-center w-full md:w-auto mr-auto md:mr-0 md:ml-auto">
                     <div className="ml-5 mr-5 mb-4 md:mb-0 md:ml-0 w-full">
-                      <Selector value={disabled} extension={ext} onChange={setDisabled}/>
+                      <Selector value={disabled} extension={ext} onChange={(fmt) => {setDisabled(fmt); setFormat(fmt)}}/>
                     </div>
 
                     <div onClick={removeFile} className="absolute -top-2 -right-2 pointer-events-auto sm:static sm:ml-4 sm:mr-7 rounded-full p-1 bg-accent md:bg-background hover:text-accent-foreground hover:bg-accent dark:hover:bg-input/50 transition-all duration-300">
@@ -130,8 +151,14 @@ export default function Home() {
                   </div>
                 </div>
                 
-                <div className="flex flex-wrap justify-end mt-4">
-                  <Button disabled={!disabled}>
+                <div className="flex flex-wrap justify-end mt-4 gap-3">
+                  {url && (
+                    <Button asChild>
+                      <a href={url} download={`${file.name.replace(/\.[^/.]+$/, "")}.${format}`} className="text-md">Download</a>
+                    </Button>
+                  )}
+
+                  <Button disabled={!disabled} onClick={handleConversion}>
                     <span className="text-md">Convert</span>
                   </Button>
                 </div>

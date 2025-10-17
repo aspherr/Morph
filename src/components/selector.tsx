@@ -31,13 +31,10 @@ const Selector = ({ value, extension, onChange }: SelectorProps) => {
         { value: "jpg", label: "JPG" },
         { value: "png", label: "PNG" },
         { value: "webp", label: "WebP" },
-        { value: "gif", label: "GIF" },
-        { value: "svg", label: "SVG" },
 
         // Documents
         { value: "pdf", label: "PDF" },
         { value: "docx", label: "DOCX (Word)" },
-        { value: "xlsx", label: "XLSX (Excel)" },
         { value: "txt", label: "TXT (Plain Text)" },
         { value: "md", label: "Markdown (MD)" },
         { value: "html", label: "HTML" },
@@ -57,8 +54,8 @@ const Selector = ({ value, extension, onChange }: SelectorProps) => {
 
     const getAvailableFormats = (ext: string) => {
         const categories = {
-            image: ["jpg", "png", "webp", "gif", "svg"],
-            document: ["pdf", "docx", "xlsx", "txt", "md", "html", "csv"],
+            image: ["jpg", "png", "webp"],
+            document: ["pdf", "docx", "txt", "md", "html", "csv"],
             audio: ["mp3", "wav", "ogg"],
             video: ["mp4", "webm"],
         };
