@@ -107,10 +107,12 @@ export default function Home() {
       const res = await convertImage(file, format as ImageFormat);
       setUrl(res.url);
       setStatus("success");
+      toast.success("File converted successfully.")
 
     } catch (error) {
       console.error("Conversion failed:", error);
       setStatus("error");
+      toast.success("File failed to convert.")
     }
   }
 
