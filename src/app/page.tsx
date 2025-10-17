@@ -3,15 +3,16 @@
 import { useRef, useEffect, useState, DragEvent } from "react";
 import { Upload, File, FileCheck2, X, Image, FileText, AudioLines, Video } from "lucide-react"
 import { useTheme } from "next-themes";
+
 import { toast } from "sonner"
+import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner"
 
 import Navbar from "@/components/navbar";
-import { Button } from "@/components/ui/button";
 import ClickSpark from "@/components/ClickSpark";
 import Selector from "@/components/selector";
-import { Spinner } from "@/components/ui/spinner"
+import Status from "@/components/status";
 import Footer from "@/components/footer";
-
 import convertImage, { ImageFormat } from "@/lib/convert/images" 
 
 
@@ -25,6 +26,9 @@ export default function Home() {
   const [disabled, setDisabled] = useState("");
   const [busy, setBusy] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  type StatusState = "idle" | "busy" | "success" | "error";
+  const [status, setStatus] = useState<StatusState>("idle");
 
   useEffect(() => setMounted(true), []);
 
@@ -93,7 +97,7 @@ export default function Home() {
   const fileIcon = getFileIcon(ext)
 
   const handleConversion = async () => {
-    setBusy(true);
+    setStatus("busy");
     if (!file) {
       console.error("No file found.");
       return;
@@ -102,10 +106,11 @@ export default function Home() {
     try {
       const res = await convertImage(file, format as ImageFormat);
       setUrl(res.url);
-      setBusy(false);
+      setStatus("success");
 
     } catch (error) {
       console.error("Conversion failed:", error);
+      setStatus("error");
     }
   }
 
@@ -140,9 +145,16 @@ export default function Home() {
                     {fileIcon}
                     <span className="font-semibold truncate max-w-[100px] sm:max-w-[200px]">{file.name}</span>
                     <span className="font-light opacity-50">{(file.size / (1024 * 1024)).toFixed(3)}MB</span>
-                    {busy && (
+                    {status === "busy" ? (
                       <Spinner />
-                    )}
+                    
+                    ) : status === "success" ? (
+                      <Status isReady={true} />
+                    
+                    ): status === "error" ? (
+                      <Status isReady={false} />
+                    
+                    ): null}
                   </div>
 
                   <div className="flex items-center w-full md:w-auto mr-auto md:mr-0 md:ml-auto">
