@@ -161,20 +161,28 @@ export default function Home() {
 
                   <div className="flex items-center w-full md:w-auto mr-auto md:mr-0 md:ml-auto">
                     <div className="ml-5 mr-5 mb-4 md:mb-0 md:ml-0 w-full">
-                      <Selector value={disabled} extension={ext} onChange={(fmt) => {setDisabled(fmt); setFormat(fmt)}}/>
+                      <Selector value={disabled} extension={ext} onChange={(fmt) => {setDisabled(fmt); setFormat(fmt)}} converted={url}/>
                     </div>
 
-                    <div onClick={removeFile} className="absolute -top-2 -right-2 pointer-events-auto sm:static sm:ml-4 sm:mr-7 rounded-full p-1 bg-accent md:bg-background hover:text-accent-foreground hover:bg-accent dark:hover:bg-input/50 transition-all duration-300">
-                      <X className="h-[1rem] w-[1rem] rotate-0 transition-all cursor-pointer" strokeWidth={2}/>
-                    </div>
+                    {!url && (
+                      <div onClick={removeFile} className="absolute -top-2 -right-2 pointer-events-auto sm:static sm:ml-4 sm:mr-7 rounded-full p-1 bg-accent md:bg-background hover:text-accent-foreground hover:bg-accent dark:hover:bg-input/50 transition-all duration-300">
+                        <X className="h-[1rem] w-[1rem] rotate-0 transition-all cursor-pointer" strokeWidth={2}/>
+                      </div>
+                    )}
                   </div>
                 </div>
                 
                 <div className="flex flex-wrap justify-end mt-4 gap-3">
                   {url ? (
-                    <Button asChild>
-                      <a href={url} download={`${file.name.replace(/\.[^/.]+$/, "")}.${format}`} className="text-md">Download</a>
-                    </Button>
+                    <>
+                      <Button onClick={removeFile}>
+                        <span className="text-md">Convert Another File</span>
+                      </Button>
+
+                      <Button asChild>
+                        <a href={url} download={`${file.name.replace(/\.[^/.]+$/, "")}.${format}`} className="text-md">Download</a>
+                      </Button>
+                    </>
 
                   ) : (
                     <Button disabled={!disabled} onClick={handleConversion}>
