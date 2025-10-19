@@ -2,7 +2,7 @@ import { FFmpeg } from "@ffmpeg/ffmpeg";
 
 let ffmpeg: FFmpeg | null = null;
 
-async function getFFmpeg(): Promise<FFmpeg> {
+async function initFFmpeg(): Promise<FFmpeg> {
     if (ffmpeg) return ffmpeg;
     ffmpeg = new FFmpeg();
     
@@ -10,4 +10,4 @@ async function getFFmpeg(): Promise<FFmpeg> {
     return ffmpeg
 }
 
-export default getFFmpeg;
+export default initFFmpeg;

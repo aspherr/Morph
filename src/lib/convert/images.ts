@@ -6,7 +6,7 @@ function mime(ext: ImageFormat): string {
   return ext === "jpg" ? "image/jpeg" : ext === "png" ? "image/png" : "image/webp";
 }
 
-const convertImage = async (file: File, outExt: ImageFormat, opts?: { quality?: number; webpLossless?: boolean }) => {
+const convertImage = async (file: File, outExt: ImageFormat) => {
     const ffmpeg = await getFFmpeg();
     
     const ext = (file.name.split(".").pop() || "img").toLowerCase();

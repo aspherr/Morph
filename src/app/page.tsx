@@ -14,6 +14,7 @@ import Selector from "@/components/selector";
 import Status from "@/components/status";
 import Footer from "@/components/footer";
 import convertImage, { ImageFormat } from "@/lib/convert/images" 
+import convertVideo, { VideoFormat } from "@/lib/convert/video" 
 
 
 export default function Home() {
@@ -26,6 +27,11 @@ export default function Home() {
   const [disabled, setDisabled] = useState("");
   const [busy, setBusy] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const imageExts = ["jpg", "png", "webp", "gif", "svg"]
+  const docExts = ["pdf", "docx", "xlsx", "txt", "md", "html", "csv"]
+  const audioExts = ["mp3", "wav", "ogg"]
+  const videoExts = ["mp4", "webm", "mkv", "mov"]
 
   type StatusState = "idle" | "busy" | "success" | "error";
   const [status, setStatus] = useState<StatusState>("idle");
@@ -73,15 +79,19 @@ export default function Home() {
   const uploadText = drag ?
     "Release To Upload Your File"
     : "Upload Or Drop Your File Here"
+  
+  const inferType = (ext: string): "image" | "doc" | "audio" | "video" | "file" => {
+    const lower = ext.toLowerCase();
+    if (imageExts.includes(lower)) return "image";
+    if (docExts.includes(lower))   return "doc";
+    if (audioExts.includes(lower)) return "audio";
+    if (videoExts.includes(lower)) return "video";
+    return "file";
+  }
 
   const removeFile = () => { setFile(null); setDisabled(""); setBusy(false); setStatus("idle"); setUrl(null); }
 
   const getFileIcon = (ext: string) => {
-    const imageExts = ["jpg", "png", "webp", "gif", "svg"]
-    const docExts = ["pdf", "docx", "xlsx", "txt", "md", "html", "csv"]
-    const audioExts = ["mp3", "wav", "ogg"]
-    const videoExts = ["mp4", "webm"]
-
     const lower = ext.toLowerCase()
     const classes = "h-[1.25rem] w-[1.25rem] rotate-0 transition-all cursor-pointer"
 
@@ -94,6 +104,7 @@ export default function Home() {
   }
 
   const ext = file?.name.split(".").pop() || ""
+  const type = inferType(ext);
   const fileIcon = getFileIcon(ext)
 
   const handleConversion = async () => {
@@ -104,15 +115,27 @@ export default function Home() {
     }
 
     try {
-      const res = await convertImage(file, format as ImageFormat);
-      setUrl(res.url);
+      switch (type) {
+        case "image": {
+          const res = await convertImage(file, format as ImageFormat);
+          setUrl(res.url);
+          break;
+        }
+        
+        case "video": {
+          const res = await convertVideo(file, format as VideoFormat);
+          setUrl(res.url);
+          break;
+        }
+      }
+
       setStatus("success");
       toast.success("File converted successfully.")
 
     } catch (error) {
       console.error("Conversion failed:", error);
       setStatus("error");
-      toast.success("File failed to convert.")
+      toast.error("File failed to convert.")
     }
   }
 

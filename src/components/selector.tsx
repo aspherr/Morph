@@ -49,8 +49,10 @@ const Selector = ({ value, extension, onChange, converted }: SelectorProps) => {
         { value: "ogg", label: "OGG" },
 
         // Video
-        { value: "mp4", label: "MP4" },
-        { value: "webm", label: "WebM" }
+        { value: "mp4", label: "MP4 (H.264 / AAC)" },
+        { value: "webm", label: "WebM (VP9 / Opus)" },
+        { value: "mkv", label: "MKV (H.264 / AAC)" },
+        { value: "mov", label: "MOV (ProRes / H.264)" }
     ];
 
     const getAvailableFormats = (ext: string) => {
@@ -58,7 +60,7 @@ const Selector = ({ value, extension, onChange, converted }: SelectorProps) => {
             image: ["jpg", "png", "webp"],
             document: ["pdf", "docx", "txt", "md", "html", "csv"],
             audio: ["mp3", "wav", "ogg"],
-            video: ["mp4", "webm"],
+            video: ["mp4", "webm", "mkv", "mov"],
         };
 
         const lower = ext.toLowerCase()
