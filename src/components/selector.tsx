@@ -44,9 +44,12 @@ const Selector = ({ value, extension, onChange, converted }: SelectorProps) => {
         { value: "csv", label: "CSV" },
 
         // Audio
-        { value: "mp3", label: "MP3" },
-        { value: "wav", label: "WAV" },
-        { value: "ogg", label: "OGG" },
+        { value: "mp3", label: "MP3 (Compressed)" },
+        { value: "wav", label: "WAV (Uncompressed)" },
+        { value: "ogg", label: "OGG (Vorbis)" },
+        { value: "aac", label: "AAC (Compressed)" },
+        { value: "aiff", label: "AIFF (Uncompressed)" },
+        { value: "flac", label: "FLAC (Lossless)" },
 
         // Video
         { value: "mp4", label: "MP4 (H.264 / AAC)" },
@@ -59,7 +62,7 @@ const Selector = ({ value, extension, onChange, converted }: SelectorProps) => {
         const categories = {
             image: ["jpg", "png", "webp"],
             document: ["pdf", "docx", "txt", "md", "html", "csv"],
-            audio: ["mp3", "wav", "ogg"],
+            audio: ["mp3", "wav", "ogg", "aac", "aiff", "flac"],
             video: ["mp4", "webm", "mkv", "mov"],
         };
 
@@ -85,7 +88,7 @@ const Selector = ({ value, extension, onChange, converted }: SelectorProps) => {
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-full md:w-[200px] justify-between"
+            className="w-full md:w-[250px] justify-between"
             >
             {value
                 ? formats.find((formats) => formats.value === value)?.label

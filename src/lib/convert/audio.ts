@@ -1,18 +1,20 @@
 import initFFmpeg from "./ffmpeg";
 import { fetchFile } from "@ffmpeg/util";
 
-export type VideoFormat = "mp4" | "webm" | "mkv" | "mov";
-function mime(ext: VideoFormat): string {
+export type AudioFormat = "mp3" | "wav" | "ogg" | "aac" | "aiff" | "flac";
+function mime(ext: AudioFormat): string {
   switch (ext) {
-    case "mp4": return "video/mp4";
-    case "webm": return "video/webm";
-    case "mkv": return "video/x-matroska";
-    case "mov": return "video/quicktime";
-    default:    return "application/octet-stream";
+    case "mp3":  return "audio/mpeg";
+    case "wav":  return "audio/wav";
+    case "ogg":  return "audio/ogg";
+    case "aac":  return "audio/aac";
+    case "aiff": return "audio/aiff";
+    case "flac": return "audio/flac";
+    default:     return "application/octet-stream";
   }
 }
 
-const convertVideo = async (file: File, outExt: VideoFormat) => {
+const convertAudio = async (file: File, outExt: AudioFormat) => {
     const ffmpeg = await initFFmpeg();
     
     if (!(ffmpeg as any).__hooks) {
@@ -21,9 +23,9 @@ const convertVideo = async (file: File, outExt: VideoFormat) => {
     }
         
     const ext = (file.name.split(".").pop() || "vid").toLowerCase();
-    const inpExt = (["mp4", "webm", "mkv", "mov"] as const).includes(ext as any)
-                        ? (ext as VideoFormat)
-                        : "mp4";
+    const inpExt = (["mp3", "wav", "ogg", "aac", "flac", "alac"] as const).includes(ext as any)
+                        ? (ext as AudioFormat)
+                        : "mp3";
     
     const inp = `in.${inpExt}`;
     const out = `out-${Date.now()}.${outExt}`;
@@ -35,34 +37,44 @@ const convertVideo = async (file: File, outExt: VideoFormat) => {
     const args = ["-y", "-i", inp];
 
     switch (outExt) {
-        case "mp4": { 
+        case "mp3": { 
             args.push(
-                "-c:v","libx264","-preset","ultrafast","-crf","28","-pix_fmt","yuv420p",
-                "-c:a","aac","-b:a","128k","-movflags","+faststart"
+                "-c:a", "libmp3lame", "-q:a", "2"  
             );
             break; 
         }    
         
-        case "webm": { 
+        case "wav": { 
             args.push(
-                "-c:v", "libvpx", "-quality", "good", "-deadline", "good", "-cpu-used", "6",          
-                "-threads", "0", "-crf", "31", "-b:v", "0", "-g", "240", "-c:a", "libvorbis", "-q:a", "4"
+                "-c:a", "pcm_s16le"
             ); 
             break; 
         }
         
-        case "mkv": { 
+        case "ogg": { 
             args.push(
-                "-c:v", "libx264", "-preset", "ultrafast", "-crf", "23",            
-                "-threads", "0", "-g", "240", "-c:a", "aac", "-b:a", "128k"
+                "-c:a", "libvorbis", "-q:a", "5" 
             );
             break; 
         }
                 
-        case "mov": { 
+        case "aac": { 
             args.push(
-                "-c:v", "libx264", "-preset", "ultrafast", "-crf", "23", 
-                "-threads", "0", "-g", "240", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k" 
+                "-c:a", "aac", "-b:a", "192k"
+            );
+            break; 
+        }
+
+        case "aiff": { 
+            args.push(
+                "-c:a", "pcm_s16be", "-b:a", "192k"   
+            );
+            break; 
+        }
+
+        case "flac": { 
+            args.push(
+                "-c:a", "flac", 
             );
             break; 
         }
@@ -85,4 +97,4 @@ const convertVideo = async (file: File, outExt: VideoFormat) => {
     return { blob, url, out };
 }
 
-export default convertVideo;
+export default convertAudio;

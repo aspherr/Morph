@@ -13,9 +13,10 @@ import ClickSpark from "@/components/ClickSpark";
 import Selector from "@/components/selector";
 import Status from "@/components/status";
 import Footer from "@/components/footer";
+
 import convertImage, { ImageFormat } from "@/lib/convert/images" 
 import convertVideo, { VideoFormat } from "@/lib/convert/video" 
-
+import convertAudio, { AudioFormat } from "@/lib/convert/audio";
 
 export default function Home() {
   const { resolvedTheme } = useTheme();
@@ -28,9 +29,9 @@ export default function Home() {
   const [busy, setBusy] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const imageExts = ["jpg", "png", "webp", "gif", "svg"]
+  const imageExts = ["jpg", "png", "webp"]
   const docExts = ["pdf", "docx", "xlsx", "txt", "md", "html", "csv"]
-  const audioExts = ["mp3", "wav", "ogg"]
+  const audioExts = ["mp3", "wav", "ogg", "aac", "aiff", "flac"]
   const videoExts = ["mp4", "webm", "mkv", "mov"]
 
   type StatusState = "idle" | "busy" | "success" | "error";
@@ -124,6 +125,12 @@ export default function Home() {
         
         case "video": {
           const res = await convertVideo(file, format as VideoFormat);
+          setUrl(res.url);
+          break;
+        }
+
+        case "audio": {
+          const res = await convertAudio(file, format as AudioFormat);
           setUrl(res.url);
           break;
         }

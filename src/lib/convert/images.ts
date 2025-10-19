@@ -3,7 +3,9 @@ import { fetchFile } from "@ffmpeg/util";
 
 export type ImageFormat = "jpg" | "png" | "webp";
 function mime(ext: ImageFormat): string {
-  return ext === "jpg" ? "image/jpeg" : ext === "png" ? "image/png" : "image/webp";
+  return ext === "jpg" ? 
+        "image/jpeg" : ext === "png" ? 
+        "image/png" : "image/webp";
 }
 
 const convertImage = async (file: File, outExt: ImageFormat) => {
