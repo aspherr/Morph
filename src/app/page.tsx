@@ -74,7 +74,7 @@ export default function Home() {
     "Release To Upload Your File"
     : "Upload Or Drop Your File Here"
 
-  const removeFile = () => { setFile(null); setDisabled("") }
+  const removeFile = () => { setFile(null); setDisabled(""); setBusy(false); setStatus("idle"); setUrl(null); }
 
   const getFileIcon = (ext: string) => {
     const imageExts = ["jpg", "png", "webp", "gif", "svg"]
@@ -149,7 +149,7 @@ export default function Home() {
                     <span className="font-light opacity-50">{(file.size / (1024 * 1024)).toFixed(3)}MB</span>
                     {status === "busy" ? (
                       <Spinner />
-                    
+                      
                     ) : status === "success" ? (
                       <Status isReady={true} />
                     

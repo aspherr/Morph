@@ -48,7 +48,7 @@ const Selector = ({ value, extension, onChange }: SelectorProps) => {
         { value: "ogg", label: "OGG" },
 
         // Video
-        { value: "mp4", label: "MP4 (H.264)" },
+        { value: "mp4", label: "MP4" },
         { value: "webm", label: "WebM" }
     ];
 
