@@ -33,16 +33,6 @@ const Selector = ({ value, extension, onChange, isBusy }: SelectorProps) => {
         { value: "png", label: "PNG" },
         { value: "webp", label: "WebP" },
 
-        // Documents
-        { value: "pdf", label: "PDF" },
-        { value: "docx", label: "DOCX (Word)" },
-        { value: "txt", label: "TXT (Plain Text)" },
-        { value: "md", label: "Markdown (MD)" },
-        { value: "html", label: "HTML" },
-
-        // Data
-        { value: "csv", label: "CSV" },
-
         // Audio
         { value: "wav", label: "WAV (PCM / Raw)" },
         { value: "ogg", label: "OGG (Vorbis / Comp.)" },
@@ -64,7 +54,6 @@ const Selector = ({ value, extension, onChange, isBusy }: SelectorProps) => {
     const getAvailableFormats = (ext: string) => {
         const categories = {
             image: ["jpg", "png", "webp"],
-            document: ["pdf", "docx", "txt", "md", "html", "csv"],
             audio: ["mp3", "wav", "ogg", "aac", "aiff", "flac"],
             video: ["mp4", "mp3", "webm", "mkv", "mov"],
         };

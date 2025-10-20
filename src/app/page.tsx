@@ -29,7 +29,6 @@ export default function Home() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const imageExts = ["jpg", "png", "webp"]
-  const docExts = ["pdf", "docx", "xlsx", "txt", "md", "html", "csv"]
   const audioExts = ["mp3", "wav", "ogg", "aac", "aiff", "flac"]
   const videoExts = ["mp4", "webm", "mkv", "mov"]
 
@@ -80,10 +79,9 @@ export default function Home() {
     "Release To Upload Your File"
     : "Upload Or Drop Your File Here"
   
-  const inferType = (ext: string): "image" | "doc" | "audio" | "video" | "file" => {
+  const inferType = (ext: string): "image" | "audio" | "video" | "file" => {
     const lower = ext.toLowerCase();
     if (imageExts.includes(lower)) return "image";
-    if (docExts.includes(lower))   return "doc";
     if (audioExts.includes(lower)) return "audio";
     if (videoExts.includes(lower)) return "video";
     return "file";
@@ -96,7 +94,6 @@ export default function Home() {
     const classes = "h-[1.25rem] w-[1.25rem] rotate-0 transition-all cursor-pointer"
 
     if (imageExts.includes(lower)) return <Image className={classes} strokeWidth={2}/>
-    if (docExts.includes(lower)) return <FileText className={classes} strokeWidth={2}/>
     if (audioExts.includes(lower)) return <AudioLines className={classes} strokeWidth={2}/>
     if (videoExts.includes(lower)) return <Video className={classes} strokeWidth={2}/>
 
@@ -161,9 +158,9 @@ export default function Home() {
         <main className="flex-1 font-inter">
           <section id="hero">
             <div className="flex flex-col items-center justify-center space-y-4">
-              <h1 className="font-semibold text-4xl xs:text-4xl sm:text-5xl md:text-5xl lg:text-6xl leading-tight">Convert Any File. Instantly.</h1>
+              <h1 className="font-semibold text-4xl xs:text-4xl sm:text-5xl md:text-5xl lg:text-6xl leading-tight">Convert Your Media. Instantly.</h1>
               <p className="font-light text-md md:text-md lg:text-lg">
-                Upload your files and get them back in the format you need—fast, secure, and free.
+                Upload your photos, videos, or audio files and get them back in the format you need—fast, secure, and free.
               </p>
             </div>
           </section>
@@ -224,7 +221,7 @@ export default function Home() {
               </div>
               
               ) : (
-                <div className={`flex w-full h-52 max-w-3xl border-3 border-dashed rounded-xl ${drag ? "border-green-500" : "border-black dark:border-white"}`}>
+                <div className={`flex w-full h-52 max-w-3xl border-3 border-dashed rounded-xl ${drag ? "border-emerald-600" : "border-black dark:border-white"}`}>
                   <div 
                   onClick={openExplorer}
                   onDragOver={handleDragOver}
