@@ -88,7 +88,7 @@ export default function Home() {
     return "file";
   }
 
-  const removeFile = () => { setFile(null); setStatus("idle"); setUrl(null); }
+  const removeFile = () => { setFile(null); setFormat(""); setStatus("idle"); setUrl(null); }
 
   const getFileIcon = (ext: string) => {
     const lower = ext.toLowerCase()
