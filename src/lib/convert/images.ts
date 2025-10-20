@@ -3,9 +3,11 @@ import { fetchFile } from "@ffmpeg/util";
 
 export type ImageFormat = "jpg" | "png" | "webp";
 function mime(ext: ImageFormat): string {
-  return ext === "jpg" ? 
-        "image/jpeg" : ext === "png" ? 
-        "image/png" : "image/webp";
+  switch (ext) {
+    case "jpg":  return "image/jpeg";
+    case "png":  return "image/png";
+    case "webp":  return "image/webp"
+  }
 }
 
 type ConvertOpts = { onProgress?: (p: number) => void };
@@ -37,9 +39,20 @@ const convertImage = async (file: File, outExt: ImageFormat, opts: ConvertOpts =
     const args: string[] = ["-i", inp];
 
     switch (ext) {
-        case "jpg": { args.push("-vf", "format=rgb24", "-qscale:v", "3"); break; }    
-        case "png": { args.push("-compression_level", "6"); break; }
-        case "webp": { args.push("-q:v", "85"); break; }
+        case "jpg": { 
+            args.push("-vf", "format=rgb24", "-qscale:v", "3");
+            break;
+        }    
+        
+        case "png": {
+            args.push("-compression_level", "6");
+            break;
+        }
+        
+        case "webp": {
+            args.push("-q:v", "85");
+            break;
+        }
     }
 
     args.push(out);
