@@ -8,8 +8,22 @@ function mime(ext: ImageFormat): string {
         "image/png" : "image/webp";
 }
 
-const convertImage = async (file: File, outExt: ImageFormat) => {
+type ConvertOpts = { onProgress?: (p: number) => void };
+
+const convertImage = async (file: File, outExt: ImageFormat, opts: ConvertOpts = {}) => {
     const ffmpeg = await getFFmpeg();
+
+    if (!(ffmpeg as any).__progressListenerInstalled) {
+        ffmpeg.on("progress", ({ progress }: any) => {
+            const cb = (ffmpeg as any).__progressCallback as ConvertOpts["onProgress"] | undefined;
+            if (cb) {
+                cb(Math.max(0, Math.min(100, Math.round(progress * 100))))
+            };
+        });
+        (ffmpeg as any).__progressListenerInstalled = true;
+    }
+
+    (ffmpeg as any).__progressCallback = opts.onProgress;
     
     const ext = (file.name.split(".").pop() || "img").toLowerCase();
     const inpExt = (["jpg", "png", "webp"] as const).includes(ext as any)
@@ -35,6 +49,8 @@ const convertImage = async (file: File, outExt: ImageFormat) => {
     const bytes = new Uint8Array(data);
     const blob = new Blob([bytes], { type: mime(outExt) });
     const url = URL.createObjectURL(blob);
+
+    (ffmpeg as any).__progressCallback = undefined;
 
     return { blob, url, out };
 }

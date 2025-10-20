@@ -117,7 +117,7 @@ export default function Home() {
     try {
       switch (type) {
         case "image": {
-          const res = await convertImage(file, format as ImageFormat);
+          const res = await convertImage(file, format as ImageFormat, { onProgress: setProgress });
           setUrl(res.url);
           break;
         }
