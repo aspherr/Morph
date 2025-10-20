@@ -1,8 +1,7 @@
 import { FFmpeg } from "@ffmpeg/ffmpeg";
 
 let ffmpeg: FFmpeg | null = null;
-
-async function initFFmpeg(): Promise<FFmpeg> {
+const initFFmpeg = async (): Promise<FFmpeg> => {
     if (ffmpeg) return ffmpeg;
     ffmpeg = new FFmpeg();
     

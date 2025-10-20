@@ -23,10 +23,10 @@ type SelectorProps = {
     value: string
     extension: string
     onChange: (val: string) => void
-    converted?: string | null
+    isBusy?: boolean
 }
 
-const Selector = ({ value, extension, onChange, converted }: SelectorProps) => {
+const Selector = ({ value, extension, onChange, isBusy }: SelectorProps) => {
     const formats = [
         // Images
         { value: "jpg", label: "JPG" },
@@ -79,12 +79,11 @@ const Selector = ({ value, extension, onChange, converted }: SelectorProps) => {
 
     const [open, setOpen] = useState(false);
     const availableFormats = getAvailableFormats(extension);
-    const isConverted = converted != null;
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-            <Button disabled={isConverted}
+            <Button disabled={isBusy}
             variant="outline"
             role="combobox"
             aria-expanded={open}

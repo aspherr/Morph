@@ -25,8 +25,6 @@ export default function Home() {
   const [format, setFormat] = useState("");
   const [url, setUrl] = useState<string | null>(null);
   const [drag, setDrag] = useState(false);
-  const [disabled, setDisabled] = useState("");
-  const [busy, setBusy] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const imageExts = ["jpg", "png", "webp"]
@@ -90,7 +88,7 @@ export default function Home() {
     return "file";
   }
 
-  const removeFile = () => { setFile(null); setDisabled(""); setBusy(false); setStatus("idle"); setUrl(null); }
+  const removeFile = () => { setFile(null); setStatus("idle"); setUrl(null); }
 
   const getFileIcon = (ext: string) => {
     const lower = ext.toLowerCase()
@@ -191,10 +189,10 @@ export default function Home() {
 
                   <div className="flex items-center w-full md:w-auto mr-auto md:mr-0 md:ml-auto">
                     <div className="ml-5 mr-5 mb-4 md:mb-0 md:ml-0 w-full">
-                      <Selector value={disabled} extension={ext} onChange={(fmt) => {setDisabled(fmt); setFormat(fmt)}} converted={url}/>
+                      <Selector value={format} extension={ext} onChange={(fmt) => {setFormat(fmt)}} isBusy={status !== "idle"}/>
                     </div>
 
-                    {!url && (
+                    {!url && status === "idle" && (
                       <div onClick={removeFile} className="absolute -top-2 -right-2 pointer-events-auto sm:static sm:ml-4 sm:mr-7 rounded-full p-1 bg-accent md:bg-background hover:text-accent-foreground hover:bg-accent dark:hover:bg-input/50 transition-all duration-300">
                         <X className="h-[1rem] w-[1rem] rotate-0 transition-all cursor-pointer" strokeWidth={2}/>
                       </div>
@@ -215,9 +213,9 @@ export default function Home() {
                     </>
 
                   ) : (
-                    <Button disabled={!disabled} onClick={handleConversion}>
+                    <Button disabled={status === "busy"} onClick={handleConversion}>
                       <span className="text-md">
-                        {busy ? "Converting..." : "Convert"}
+                        {status === "busy" ? "Converting..." : "Convert"}
                       </span>
                     </Button>
                   )}
