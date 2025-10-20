@@ -1,10 +1,11 @@
 import initFFmpeg from "./ffmpeg";
 import { fetchFile } from "@ffmpeg/util";
 
-export type VideoFormat = "mp4" | "webm" | "mkv" | "mov";
+export type VideoFormat = "mp4" | "mp3" | "webm" | "mkv" | "mov";
 function mime(ext: VideoFormat): string {
   switch (ext) {
     case "mp4": return "video/mp4";
+    case "mp3":  return "audio/mpeg";
     case "webm": return "video/webm";
     case "mkv": return "video/x-matroska";
     case "mov": return "video/quicktime";
@@ -21,7 +22,7 @@ const convertVideo = async (file: File, outExt: VideoFormat) => {
     }
         
     const ext = (file.name.split(".").pop() || "vid").toLowerCase();
-    const inpExt = (["mp4", "webm", "mkv", "mov"] as const).includes(ext as any)
+    const inpExt = (["mp4", "mp3", "webm", "mkv", "mov"] as const).includes(ext as any)
                         ? (ext as VideoFormat)
                         : "mp4";
     
@@ -41,7 +42,14 @@ const convertVideo = async (file: File, outExt: VideoFormat) => {
                 "-c:a","aac","-b:a","128k","-movflags","+faststart"
             );
             break; 
-        }    
+        }   
+        
+        case "mp3": { 
+            args.push(
+                "-c:a", "libmp3lame", "-q:a", "2"  
+            );
+            break; 
+        }  
         
         case "webm": { 
             args.push(

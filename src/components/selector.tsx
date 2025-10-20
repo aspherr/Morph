@@ -44,12 +44,14 @@ const Selector = ({ value, extension, onChange, isBusy }: SelectorProps) => {
         { value: "csv", label: "CSV" },
 
         // Audio
-        { value: "mp3", label: "MP3 (Compressed)" },
         { value: "wav", label: "WAV (Uncompressed)" },
         { value: "ogg", label: "OGG (Vorbis)" },
         { value: "aac", label: "AAC (Compressed)" },
         { value: "aiff", label: "AIFF (Uncompressed)" },
         { value: "flac", label: "FLAC (Lossless)" },
+
+        // Audio + Video
+        { value: "mp3", label: "MP3 (Compressed)" },
 
         // Video
         { value: "mp4", label: "MP4 (H.264 / AAC)" },
@@ -63,7 +65,7 @@ const Selector = ({ value, extension, onChange, isBusy }: SelectorProps) => {
             image: ["jpg", "png", "webp"],
             document: ["pdf", "docx", "txt", "md", "html", "csv"],
             audio: ["mp3", "wav", "ogg", "aac", "aiff", "flac"],
-            video: ["mp4", "webm", "mkv", "mov"],
+            video: ["mp4", "mp3", "webm", "mkv", "mov"],
         };
 
         const lower = ext.toLowerCase()
