@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useEffect, useState, DragEvent } from "react";
-import { Upload, File, FileCheck2, X, Image, FileText, AudioLines, Video } from "lucide-react"
+import { Upload, File, FileCheck2, X, Image, AudioLines, Video } from "lucide-react"
 import { useTheme } from "next-themes";
 
 import { toast } from "sonner"
@@ -12,6 +12,7 @@ import Navbar from "@/components/navbar";
 import ClickSpark from "@/components/ClickSpark";
 import Selector from "@/components/selector";
 import Status from "@/components/status";
+import FormatCard from "@/components/formatCard";
 import Footer from "@/components/footer";
 
 import convertImage, { ImageFormat } from "@/lib/convert/images" 
@@ -30,7 +31,7 @@ export default function Home() {
 
   const imageExts = ["jpg", "png", "webp"]
   const audioExts = ["mp3", "wav", "ogg", "aac", "aiff", "flac"]
-  const videoExts = ["mp4", "webm", "mkv", "mov"]
+  const videoExts = ["mp4", "webm", "mkv", "mov", "mp3"]
 
   type StatusState = "idle" | "busy" | "success" | "error";
   const [status, setStatus] = useState<StatusState>("idle");
@@ -244,6 +245,20 @@ export default function Home() {
               )}
           </section>
         </main>
+
+        <section id="info">
+          <div className="flex flex-col w-full items-center justify-center mt-25 space-y-10">
+            <div className="text-2xl font-semibold">
+              <h1 className="font-semibold text-3xl leading-tight">Supported Formats</h1>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 w-full max-w-5xl mx-auto items-center">
+              <FormatCard name={"Image"} icon={Image} formats={imageExts} />
+              <FormatCard name={"Video"} icon={Video} formats={videoExts} />
+              <FormatCard name={"Audio"} icon={AudioLines} formats={audioExts} />
+            </div>
+          </div>
+        </section>
 
         <section id="footer">
           <Footer/>
