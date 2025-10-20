@@ -44,20 +44,21 @@ const Selector = ({ value, extension, onChange, isBusy }: SelectorProps) => {
         { value: "csv", label: "CSV" },
 
         // Audio
-        { value: "wav", label: "WAV (Uncompressed)" },
-        { value: "ogg", label: "OGG (Vorbis)" },
-        { value: "aac", label: "AAC (Compressed)" },
-        { value: "aiff", label: "AIFF (Uncompressed)" },
+        { value: "wav", label: "WAV (PCM / Raw)" },
+        { value: "ogg", label: "OGG (Vorbis / Comp.)" },
+        { value: "aac", label: "AAC (Comp.)" },
+        { value: "aiff", label: "AIFF (PCM / Raw)" },
         { value: "flac", label: "FLAC (Lossless)" },
 
         // Audio + Video
-        { value: "mp3", label: "MP3 (Compressed)" },
+        { value: "mp3", label: "MP3 (MPEG / Comp.)" },
 
         // Video
         { value: "mp4", label: "MP4 (H.264 / AAC)" },
         { value: "webm", label: "WebM (VP9 / Opus)" },
         { value: "mkv", label: "MKV (H.264 / AAC)" },
         { value: "mov", label: "MOV (ProRes / H.264)" }
+
     ];
 
     const getAvailableFormats = (ext: string) => {
