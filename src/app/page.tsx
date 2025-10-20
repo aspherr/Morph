@@ -25,6 +25,7 @@ export default function Home() {
   const [format, setFormat] = useState("");
   const [url, setUrl] = useState<string | null>(null);
   const [drag, setDrag] = useState(false);
+  const [progress, setProgress] = useState(0);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const imageExts = ["jpg", "png", "webp"]
@@ -122,7 +123,7 @@ export default function Home() {
         }
         
         case "video": {
-          const res = await convertVideo(file, format as VideoFormat);
+          const res = await convertVideo(file, format as VideoFormat, { onProgress: setProgress });
           setUrl(res.url);
           break;
         }
@@ -215,7 +216,7 @@ export default function Home() {
                   ) : (
                     <Button disabled={status === "busy"} onClick={handleConversion}>
                       <span className="text-md">
-                        {status === "busy" ? "Converting..." : "Convert"}
+                        {status === "busy" ? `Converting - ${progress}%` : "Convert"}
                       </span>
                     </Button>
                   )}

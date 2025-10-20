@@ -13,13 +13,22 @@ function mime(ext: VideoFormat): string {
   }
 }
 
-const convertVideo = async (file: File, outExt: VideoFormat) => {
+type ConvertOpts = { onProgress?: (p: number) => void };
+
+const convertVideo = async (file: File, outExt: VideoFormat, opts: ConvertOpts = {}) => {
     const ffmpeg = await initFFmpeg();
     
-    if (!(ffmpeg as any).__hooks) {
-        ffmpeg.on("progress", ({ progress }: any) => console.debug("progress:", progress));
-        (ffmpeg as any).__hooks = true;
+    if (!(ffmpeg as any).__progressListenerInstalled) {
+        ffmpeg.on("progress", ({ progress }: any) => {
+            const cb = (ffmpeg as any).__progressCallback as ConvertOpts["onProgress"] | undefined;
+            if (cb) {
+                cb(Math.max(0, Math.min(100, Math.round(progress * 100))))
+            };
+        });
+        (ffmpeg as any).__progressListenerInstalled = true;
     }
+
+    (ffmpeg as any).__progressCallback = opts.onProgress;
         
     const ext = (file.name.split(".").pop() || "vid").toLowerCase();
     const inpExt = (["mp4", "mp3", "webm", "mkv", "mov"] as const).includes(ext as any)
@@ -89,7 +98,7 @@ const convertVideo = async (file: File, outExt: VideoFormat) => {
     const url = URL.createObjectURL(blob);
 
     await ffmpeg.deleteFile(out).catch(() => {});
-
+    (ffmpeg as any).__progressCallback = undefined;
     return { blob, url, out };
 }
 
