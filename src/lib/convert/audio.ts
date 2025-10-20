@@ -14,13 +14,22 @@ function mime(ext: AudioFormat): string {
   }
 }
 
-const convertAudio = async (file: File, outExt: AudioFormat) => {
+type ConvertOpts = { onProgress?: (p: number) => void };
+
+const convertAudio = async (file: File, outExt: AudioFormat, opts: ConvertOpts = {}) => {
     const ffmpeg = await initFFmpeg();
     
-    if (!(ffmpeg as any).__hooks) {
-        ffmpeg.on("progress", ({ progress }: any) => console.debug("progress:", progress));
-        (ffmpeg as any).__hooks = true;
+    if (!(ffmpeg as any).__progressListenerInstalled) {
+        ffmpeg.on("progress", ({ progress }: any) => {
+            const cb = (ffmpeg as any).__progressCallback as ConvertOpts["onProgress"] | undefined;
+            if (cb) {
+                cb(Math.max(0, Math.min(100, Math.round(progress * 100))))
+            };
+        });
+        (ffmpeg as any).__progressListenerInstalled = true;
     }
+
+    (ffmpeg as any).__progressCallback = opts.onProgress;
         
     const ext = (file.name.split(".").pop() || "vid").toLowerCase();
     const inpExt = (["mp3", "wav", "ogg", "aac", "flac", "alac"] as const).includes(ext as any)
@@ -93,7 +102,8 @@ const convertAudio = async (file: File, outExt: AudioFormat) => {
     const url = URL.createObjectURL(blob);
 
     await ffmpeg.deleteFile(out).catch(() => {});
-
+    (ffmpeg as any).__progressCallback = undefined;
+    
     return { blob, url, out };
 }
 

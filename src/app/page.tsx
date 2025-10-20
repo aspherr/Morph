@@ -129,7 +129,7 @@ export default function Home() {
         }
 
         case "audio": {
-          const res = await convertAudio(file, format as AudioFormat);
+          const res = await convertAudio(file, format as AudioFormat, { onProgress: setProgress });
           setUrl(res.url);
           break;
         }
