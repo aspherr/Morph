@@ -223,7 +223,7 @@ export default function Home() {
                 </div>
                 
                 ) : (
-                  <div className={`flex w-full h-52 max-w-3xl border-3 border-dashed rounded-xl ${drag ? "border-emerald-600" : "border-black dark:border-white"}`}>
+                  <div className={`flex w-full h-52 max-w-3xl border-3 border-dashed rounded-xl ${drag ? "border-emerald-600" : "border-neutral-700/75 dark:border-white"}`}>
                     <div 
                     onClick={openExplorer}
                     onDragOver={handleDragOver}
