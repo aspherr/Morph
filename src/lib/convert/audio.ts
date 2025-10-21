@@ -8,7 +8,7 @@ function mime(ext: AudioFormat): string {
     case "wav":  return "audio/wav";
     case "ogg":  return "audio/ogg";
     case "aac":  return "audio/aac";
-    case "aiff": return "audio/aiff";
+    case "aiff": return "audio/x-aiff";
     case "flac": return "audio/flac";
     default:     return "application/octet-stream";
   }

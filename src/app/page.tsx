@@ -46,7 +46,7 @@ export default function Home() {
 
   const validFormat = (file: File) => {
     const validFormats = [
-      "image/jpg", "image/png", "image/webp",
+      "image/jpg","image/jpeg", "image/png", "image/webp",
       "audio/mpeg", "audio/x-wav", "audio/ogg", "application/ogg", "audio/aac", "audio/x-aiff", "audio/flac",
       "video/mp4", "video/webm", "video/x-matroska", "video/quicktime",
     ];
@@ -265,7 +265,7 @@ export default function Home() {
                 <h1 className="font-semibold text-3xl leading-tight">Supported Formats</h1>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 w-full max-w-5xl mx-auto items-center">
+              <div className="flex flex-col md:flex-row w-full gap-5 items-center justify-center">
                 <FormatCard name={"Image"} icon={Image} formats={imageExts} />
                 <FormatCard name={"Video"} icon={Video} formats={videoExts} />
                 <FormatCard name={"Audio"} icon={AudioLines} formats={audioExts} />
@@ -276,7 +276,7 @@ export default function Home() {
         </ClickSpark> 
       </div>
       
-      <section id="footer" className="mt-10">
+      <section id="footer" className="mt-10 mb-2">
           <Footer/>
       </section>
     </div>

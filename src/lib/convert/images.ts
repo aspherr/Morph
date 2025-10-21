@@ -50,7 +50,7 @@ const convertImage = async (file: File, outExt: ImageFormat, opts: ConvertOpts =
         }
         
         case "webp": {
-            args.push("-q:v", "85");
+            args.push("-q:v", "85", "-pix_fmt", "rgb24");
             break;
         }
     }
