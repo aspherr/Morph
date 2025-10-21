@@ -44,14 +44,25 @@ export default function Home() {
     fileInputRef.current?.click();
   }
 
+  const validFormat = (file: File) => {
+    const validFormats = [
+      "image/jpg", "image/png", "image/webp",
+      "audio/mpeg", "audio/x-wav", "audio/ogg", "application/ogg", "audio/aac", "audio/x-aiff", "audio/flac",
+      "video/mp4", "video/webm", "video/x-matroska", "video/quicktime",
+    ];
+    console.log(file?.type)
+    return validFormats.includes(file?.type);
+  }
+
   const uploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    if (files && files.length > 0) {
+    if (files && files.length > 0 && validFormat(files[0])) {
       setFile(files[0]);
       toast.success("File has been uploaded successfully.");
       return;
     }
-    toast.error("Failed to upload file");
+    
+    toast.error("Sorry, upload failed — we don’t support that file format.");
   }
   
   const handleDragOver = (e: DragEvent<HTMLInputElement>) => { e.preventDefault(); setDrag(true); }
@@ -64,12 +75,13 @@ export default function Home() {
     setDrag(false);
 
     const files = e.dataTransfer.files;
-    if (files && files[0]) {
+    if (files && files[0] && validFormat(files[0])) {
       setFile(files[0]);
       toast.success("File has been uploaded successfully.");
       return;
     }
-     toast.error("Failed to upload file");
+
+    toast.error("Sorry, upload failed — we don’t support that file format.");
   }
 
   const uploadIcon = drag ? 
@@ -213,7 +225,7 @@ export default function Home() {
                       </>
 
                     ) : (
-                      <Button disabled={!format} onClick={handleConversion}>
+                      <Button disabled={status !== "idle"} onClick={handleConversion}>
                         <span className="text-md">
                           {status === "busy" ? `Converting - ${progress}%` : "Convert"}
                         </span>
