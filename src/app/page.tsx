@@ -276,7 +276,7 @@ export default function Home() {
         </ClickSpark> 
       </div>
       
-      <section id="footer" className="mt-10 mb-2">
+      <section id="footer" className="mt-20 mb-2">
           <Footer/>
       </section>
     </div>
