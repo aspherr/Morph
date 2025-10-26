@@ -2,7 +2,7 @@ import initFFmpeg from "./ffmpeg";
 import { fetchFile } from "@ffmpeg/util";
 
 export type VideoFormat = "mp4" | "mp3" | "webm" | "mkv" | "mov";
-function mime(ext: VideoFormat): string {
+export function mime(ext: VideoFormat): string {
   switch (ext) {
     case "mp4": return "video/mp4";
     case "mp3":  return "audio/mpeg";
@@ -93,7 +93,6 @@ const convertVideo = async (file: File, outExt: VideoFormat, opts: ConvertOpts =
     const blob = new Blob([bytes], { type: mime(outExt) });
     const url = URL.createObjectURL(blob);
 
-    await ffmpeg.deleteFile(out).catch(() => {});
     (ffmpeg as any).__progressCallback = undefined;
     return { blob, url, out };
 }
