@@ -181,7 +181,7 @@ export default function Home() {
             <section id="converter" className="flex items-center justify-center mt-10 md:mt-20">
               {file ? (
                 <div className="flex w-full max-w-3xl flex-col">
-                  <div className="relative flex flex-wrap sm:flex-row items-center w-full h-28 md:h-18 border rounded-lg border-black dark:border-white ">
+                  <div className="relative flex flex-wrap sm:flex-row items-center w-full h-28 md:h-18 border-2 rounded-lg border-black dark:border-white/60 ">
                     <div className="flex flex-row ml-7 mt-2 sm:mt-0 space-x-2 items-center justify-center text-sm">
                       {fileIcon}
                       <span className="font-semibold truncate max-w-[85px] sm:max-w-[200px]">{file.name}</span>
@@ -234,7 +234,7 @@ export default function Home() {
                 </div>
                 
                 ) : (
-                  <div className={`flex w-full h-52 max-w-3xl border-3 border-dashed rounded-xl ${drag ? "border-emerald-600" : "border-neutral-700/75 dark:border-white"}`}>
+                  <div className={`flex w-full h-52 max-w-3xl border-3 border-dashed rounded-xl ${drag ? "border-emerald-600" : "border-neutral-700/75 dark:border-white/60"}`}>
                     <div 
                     onClick={openExplorer}
                     onDragOver={handleDragOver}
