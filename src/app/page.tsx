@@ -7,11 +7,6 @@ import { useTheme } from "next-themes";
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner"
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card"
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 
 import Navbar from "@/components/navbar";
