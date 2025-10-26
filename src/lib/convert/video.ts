@@ -31,11 +31,7 @@ const convertVideo = async (file: File, outExt: VideoFormat, opts: ConvertOpts =
     (ffmpeg as any).__progressCallback = opts.onProgress;
         
     const ext = (file.name.split(".").pop() || "vid").toLowerCase();
-    const inpExt = (["mp4", "mp3", "webm", "mkv", "mov"] as const).includes(ext as any)
-                        ? (ext as VideoFormat)
-                        : "mp4";
-    
-    const inp = `in.${inpExt}`;
+    const inp = `in.${ext}`;
     const out = `out-${Date.now()}.${outExt}`;
 
     await ffmpeg.deleteFile?.(inp).catch(()=>{});

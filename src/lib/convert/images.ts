@@ -1,19 +1,20 @@
-import getFFmpeg from "./ffmpeg";
+import initFFmpeg from "./ffmpeg";
 import { fetchFile } from "@ffmpeg/util";
 
 export type ImageFormat = "jpg" | "png" | "webp";
-function mime(ext: ImageFormat): string {
+export function mime(ext: ImageFormat): string {
   switch (ext) {
     case "jpg":  return "image/jpeg";
     case "png":  return "image/png";
     case "webp":  return "image/webp"
+    default:     return "application/octet-stream";
   }
 }
 
 type ConvertOpts = { onProgress?: (p: number) => void };
 
 const convertImage = async (file: File, outExt: ImageFormat, opts: ConvertOpts = {}) => {
-    const ffmpeg = await getFFmpeg();
+    const ffmpeg = await initFFmpeg();
 
     if (!(ffmpeg as any).__progressListenerInstalled) {
         ffmpeg.on("progress", ({ progress }: any) => {
@@ -28,17 +29,16 @@ const convertImage = async (file: File, outExt: ImageFormat, opts: ConvertOpts =
     (ffmpeg as any).__progressCallback = opts.onProgress;
     
     const ext = (file.name.split(".").pop() || "img").toLowerCase();
-    const inpExt = (["jpg", "png", "webp"] as const).includes(ext as any)
-                        ? (ext as ImageFormat)
-                        : "jpg";
-    
-    const inp = `in.${inpExt}`;
-    const out = `out.${outExt}`;
+    const inp = `in.${ext}`;
+    const out = `out-${Date.now()}.${outExt}`;
+
+    await ffmpeg.deleteFile?.(inp).catch(()=>{});
+    await ffmpeg.deleteFile?.(out).catch(()=>{});
 
     await ffmpeg.writeFile(inp, await fetchFile(file));
     const args: string[] = ["-i", inp];
 
-    switch (ext) {
+    switch (outExt) {
         case "jpg": { 
             args.push("-vf", "format=rgb24", "-qscale:v", "3");
             break;

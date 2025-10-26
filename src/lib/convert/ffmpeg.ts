@@ -9,4 +9,6 @@ const initFFmpeg = async (): Promise<FFmpeg> => {
     return ffmpeg
 }
 
+export const __resetFFmpegSingletonForTests = () => { ffmpeg = null; };
+
 export default initFFmpeg;
