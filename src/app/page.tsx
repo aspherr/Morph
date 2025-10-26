@@ -7,6 +7,12 @@ import { useTheme } from "next-themes";
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner"
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 
 import Navbar from "@/components/navbar";
 import ClickSpark from "@/components/ClickSpark";
@@ -173,7 +179,13 @@ export default function Home() {
               <div className="flex flex-col items-center justify-center space-y-4">
                 <h1 className="font-semibold text-4xl xs:text-4xl sm:text-5xl md:text-5xl lg:text-6xl leading-tight">Convert Your Media. Instantly.</h1>
                 <p className="font-light text-md md:text-md lg:text-lg">
-                  Upload your photos, videos, or audio files and get them back in the format you need—fast, secure, and free.
+                  Upload your photos, videos, or audio files and get them back in the format you need — 
+                  <Popover>
+                    <PopoverTrigger className="underline cursor-pointer"> fast, secure, and free.</PopoverTrigger>
+                    <PopoverContent className="mt-2 mx-10">
+                      Powered by <span className="text-sm font-semibold">FFmpeg.wasm</span>. All processing happens right in your browser.
+                    </PopoverContent> 
+                  </Popover>
                 </p>
               </div>
             </section>
