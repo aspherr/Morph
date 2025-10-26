@@ -17,21 +17,24 @@ type FormatCardProps = {
 
 const FormatCard = ({ name, icon: Icon, formats }: FormatCardProps) => {
   return (
-    <div className="w-full md:w-auto"> 
+    <div className="w-full md:w-auto h-auto"> 
       <Card className="w-full">
         <CardHeader className="flex flex-row items-center gap-2 leading-tight">
           <Icon className="w-5 h-5" />
           <CardTitle>{name}</CardTitle>
         </CardHeader>
 
-        <CardContent className="flex flex-wrap items-center gap-2 text-sm font-light opacity-75 h-4">
+        <CardContent className="flex flex-wrap items-center gap-2 text-sm font-light opacity-75 min-h-4">
           {formats.map((fmt, i) => (
             <React.Fragment key={fmt}>
-              <span className="uppercase">{fmt}</span>
-              {i < formats.length - 1 && <Separator orientation="vertical" />}
+              <span className="uppercase break-words min-w-0 shrink">{fmt}</span>
+              {i < formats.length - 1 && (
+                <Separator orientation="vertical"/>
+              )}
             </React.Fragment>
           ))}
         </CardContent>
+
       </Card>
     </div>
   );
