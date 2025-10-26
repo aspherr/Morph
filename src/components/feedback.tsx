@@ -21,8 +21,12 @@ const Feedback = () => {
     const sendFeedback = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        if (message.trim() === "") {
+            toast.warning("Please enter a message.");
+            return;
+        }
+
         try {
-            console.log(JSON.stringify({ message }));
             const res = await fetch('/api/feedback', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -64,6 +68,7 @@ const Feedback = () => {
                 <form className="flex flex-col gap-3" onSubmit={sendFeedback}>
                     <Textarea
                     placeholder="Ideas to improve the page..."
+                    aria-label="Ideas to improve the page"
                     value={message}
                     onChange={(e) => {setMessage(e.target.value)}}
                     className="min-h-[120px] w-full resize-none"
