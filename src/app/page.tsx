@@ -224,7 +224,7 @@ export default function Home() {
                       </>
 
                     ) : (
-                      <Button disabled={status !== "idle"} onClick={handleConversion}>
+                      <Button disabled={!format || status !== "idle"} onClick={handleConversion}>
                         <span className="text-md">
                           {status === "busy" ? `Converting - ${progress}%` : "Convert"}
                         </span>
