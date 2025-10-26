@@ -37,7 +37,7 @@ const Feedback = () => {
                 return;
             }
 
-            toast.success("Feedback was sent successfully.");
+            toast.success("Thank you for the feedback!");
             setMessage("");
             setOpen(false);
             
