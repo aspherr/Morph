@@ -50,7 +50,6 @@ export default function Home() {
       "audio/mpeg", "audio/x-wav", "audio/ogg", "application/ogg", "audio/aac", "audio/x-aiff", "audio/flac",
       "video/mp4", "video/webm", "video/x-matroska", "video/quicktime",
     ];
-    console.log(file?.type)
     return validFormats.includes(file?.type);
   }
 
@@ -185,8 +184,8 @@ export default function Home() {
                   <div className="relative flex flex-wrap sm:flex-row items-center w-full h-28 md:h-18 border rounded-lg border-black dark:border-white ">
                     <div className="flex flex-row ml-7 mt-2 sm:mt-0 space-x-2 items-center justify-center text-sm">
                       {fileIcon}
-                      <span className="font-semibold truncate max-w-[100px] sm:max-w-[200px]">{file.name}</span>
-                      <span className="font-light opacity-50">{(file.size / (1024 * 1024)).toFixed(3)}MB</span>
+                      <span className="font-semibold truncate max-w-[85px] sm:max-w-[200px]">{file.name}</span>
+                      <span className="font-light opacity-50">{(file.size / (1024 * 1024)).toFixed(2)}MB</span>
                       {status === "busy" ? (
                         <Spinner />
                         

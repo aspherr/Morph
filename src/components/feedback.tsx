@@ -43,7 +43,7 @@ const Feedback = () => {
             
         } catch (error) {
             toast.error("Failed to send feedback. Please try again.");
-            console.log("Error: ", error);
+            console.error("Error: ", error);
         }  
     }
     
