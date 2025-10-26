@@ -62,6 +62,7 @@ export default function Home() {
       return;
     }
     
+    e.target.value = "";
     toast.error("Sorry, upload failed — we don’t support that file format.");
   }
   
@@ -255,6 +256,7 @@ export default function Home() {
                     
                       <input
                         type="file"
+                        aria-label="drop-area"
                         ref={fileInputRef}
                         onChange={uploadFile}
                         className="hidden"
