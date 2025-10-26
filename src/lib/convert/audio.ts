@@ -2,7 +2,7 @@ import initFFmpeg from "./ffmpeg";
 import { fetchFile } from "@ffmpeg/util";
 
 export type AudioFormat = "mp3" | "wav" | "ogg" | "aac" | "aiff" | "flac";
-function mime(ext: AudioFormat): string {
+export function mime(ext: AudioFormat): string {
   switch (ext) {
     case "mp3":  return "audio/mpeg";
     case "wav":  return "audio/wav";
@@ -32,11 +32,7 @@ const convertAudio = async (file: File, outExt: AudioFormat, opts: ConvertOpts =
     (ffmpeg as any).__progressCallback = opts.onProgress;
         
     const ext = (file.name.split(".").pop() || "vid").toLowerCase();
-    const inpExt = (["mp3", "wav", "ogg", "aac", "flac", "alac"] as const).includes(ext as any)
-                        ? (ext as AudioFormat)
-                        : "mp3";
-    
-    const inp = `in.${inpExt}`;
+    const inp = `in.${ext}`;
     const out = `out-${Date.now()}.${outExt}`;
 
     await ffmpeg.deleteFile?.(inp).catch(()=>{});
@@ -101,7 +97,6 @@ const convertAudio = async (file: File, outExt: AudioFormat, opts: ConvertOpts =
     const blob = new Blob([bytes], { type: mime(outExt) });
     const url = URL.createObjectURL(blob);
 
-    await ffmpeg.deleteFile(out).catch(() => {});
     (ffmpeg as any).__progressCallback = undefined;
     
     return { blob, url, out };
