@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google"
 import { ThemeProvider } from "next-themes";
+import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
@@ -39,6 +41,8 @@ export default function RootLayout({
       <body
         className={cn("min-h-screen flex flex-col bg-background text-foreground", inter.className)}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <Analytics />
+            <SpeedInsights />
             {children}
           </ThemeProvider>
           
