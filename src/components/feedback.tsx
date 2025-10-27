@@ -13,43 +13,47 @@ import {
 } from "@/components/ui/dropdown-menu"
 import ShinyText from './ShinyText';
 
+export async function sendFeedback(
+  e: React.FormEvent<HTMLFormElement>,
+  message: string,
+  setMessage: (val: string) => void,
+  setOpen?: (val: boolean) => void
+) {
+    e.preventDefault();
+
+    if (message.trim() === "") {
+        toast.warning("Please enter a message.");
+        return;
+    }
+
+    try {
+        const res = await fetch('/api/feedback', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message }),
+        });
+
+        const json = await res.json();
+        if (!json) {
+            toast.error("Failed to send feedback. Please try again.");
+            setMessage("");
+            setOpen?.(false);
+            return;
+        }
+
+        toast.success("Thank you for the feedback!");
+        setMessage("");
+        setOpen?.(false);
+        
+    } catch (error) {
+        toast.error("Failed to send feedback. Please try again.");
+        console.error("Error: ", error);
+    }  
+}
 
 const Feedback = () => {
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState("");
-
-    const sendFeedback = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        if (message.trim() === "") {
-            toast.warning("Please enter a message.");
-            return;
-        }
-
-        try {
-            const res = await fetch('/api/feedback', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message }),
-            });
-
-            const json = await res.json();
-            if (!json) {
-                toast.error("Failed to send feedback. Please try again.");
-                setMessage("");
-                setOpen(false);
-                return;
-            }
-
-            toast.success("Thank you for the feedback!");
-            setMessage("");
-            setOpen(false);
-            
-        } catch (error) {
-            toast.error("Failed to send feedback. Please try again.");
-            console.error("Error: ", error);
-        }  
-    }
     
     return (
         <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -65,7 +69,7 @@ const Feedback = () => {
             </DropdownMenuTrigger>
             
             <DropdownMenuContent align="end" className="p-4 w-80">
-                <form className="flex flex-col gap-3" onSubmit={sendFeedback}>
+                <form className="flex flex-col gap-3" onSubmit={(e) => {sendFeedback(e, message, setMessage, setOpen)}}>
                     <Textarea
                     placeholder="Ideas to improve the page..."
                     aria-label="Ideas to improve the page"
