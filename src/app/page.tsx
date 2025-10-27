@@ -30,9 +30,9 @@ export default function Home() {
   const [progress, setProgress] = useState(0);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const imageExts = ["jpg", "png", "webp"]
-  const audioExts = ["mp3", "wav", "ogg", "aac", "aiff", "flac"]
-  const videoExts = ["mp4", "webm", "mkv", "mov", "mp3"]
+  const imageExts = ["jpg", "jpeg", "png", "webp"];
+  const audioExts = ["mp3", "wav", "ogg", "aac", "aiff", "flac"];
+  const videoExts = ["mp4", "webm", "mkv", "mov", "mp3"];
 
   type StatusState = "idle" | "busy" | "success" | "error";
   const [status, setStatus] = useState<StatusState>("idle");
@@ -47,7 +47,7 @@ export default function Home() {
 
   const validFormat = (file: File) => {
     const validFormats = [
-      "image/jpg","image/jpeg", "image/png", "image/webp",
+      "image/jpg", "image/jpeg", "image/png", "image/webp",
       "audio/mpeg", "audio/x-wav", "audio/ogg", "application/ogg", "audio/aac", "audio/x-aiff", "audio/flac",
       "video/mp4", "video/webm", "video/x-matroska", "video/quicktime",
     ];

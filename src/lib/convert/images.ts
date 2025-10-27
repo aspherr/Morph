@@ -1,12 +1,13 @@
 import initFFmpeg from "./ffmpeg";
 import { fetchFile } from "@ffmpeg/util";
 
-export type ImageFormat = "jpg" | "png" | "webp";
+export type ImageFormat = "jpg" | "jpeg" | "png" | "webp";
 export function mime(ext: ImageFormat): string {
   switch (ext) {
     case "jpg":  return "image/jpeg";
+    case "jpeg": return "image/jpeg";
     case "png":  return "image/png";
-    case "webp":  return "image/webp"
+    case "webp": return "image/webp";
     default:     return "application/octet-stream";
   }
 }
@@ -39,6 +40,7 @@ const convertImage = async (file: File, outExt: ImageFormat, opts: ConvertOpts =
     const args: string[] = ["-i", inp];
 
     switch (outExt) {
+        case "jpeg":
         case "jpg": { 
             args.push("-vf", "format=rgb24", "-qscale:v", "3");
             break;

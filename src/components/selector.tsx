@@ -53,7 +53,7 @@ const Selector = ({ value, extension, onChange, isBusy }: SelectorProps) => {
 
     const getAvailableFormats = (ext: string) => {
         const categories = {
-            image: ["jpg", "png", "webp"],
+            image: ["jpg", "jpeg", "png", "webp"],
             audio: ["mp3", "wav", "ogg", "aac", "aiff", "flac"],
             video: ["mp4", "mp3", "webm", "mkv", "mov"],
         };
