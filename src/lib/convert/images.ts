@@ -41,8 +41,8 @@ const convertImage = async (file: File, outExt: ImageFormat, opts: ConvertOpts =
 
     switch (outExt) {
         case "jpeg":
-        case "jpg": { 
-            args.push("-vf", "format=rgb24", "-qscale:v", "3");
+        case "jpg": {
+            args.push("-qscale:v", "5");
             break;
         }    
         
@@ -59,7 +59,7 @@ const convertImage = async (file: File, outExt: ImageFormat, opts: ConvertOpts =
 
     args.push(out);
     await ffmpeg.exec(args);
-
+    
     const data = (await ffmpeg.readFile(out)) as Uint8Array;
     const bytes = new Uint8Array(data);
     const blob = new Blob([bytes], { type: mime(outExt) });
