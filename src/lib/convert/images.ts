@@ -4,7 +4,7 @@ import { fetchFile } from "@ffmpeg/util";
 export type ImageFormat = "jpg" | "jpeg" | "png" | "webp";
 export function mime(ext: ImageFormat): string {
   switch (ext) {
-    case "jpg":  return "image/jpeg";
+    case "jpg":  
     case "jpeg": return "image/jpeg";
     case "png":  return "image/png";
     case "webp": return "image/webp";
@@ -12,11 +12,36 @@ export function mime(ext: ImageFormat): string {
   }
 }
 
+async function warmupFFmpeg(ffmpeg: any) {
+  if (ffmpeg.__warmedUp) return;
+  try {
+    const warmOut = "___warmup.jpg";
+    await ffmpeg.deleteFile?.(warmOut).catch(() => {});
+    await ffmpeg.exec([
+      "-y",
+      "-hide_banner",
+      "-loglevel", "error",
+      "-f", "lavfi",
+      " -i", "color=c=black:s=2x2:d=0.01",
+      "-frames:v", "1",
+      "-c:v", "mjpeg",
+      warmOut,
+    ]);
+    await ffmpeg.deleteFile?.(warmOut).catch(() => {});
+  
+    } catch (e) {
+        console.warn("ffmpeg warmup skipped:", e);
+    }
+    
+    ffmpeg.__warmedUp = true;
+}
+
 type ConvertOpts = { onProgress?: (p: number) => void };
 
 const convertImage = async (file: File, outExt: ImageFormat, opts: ConvertOpts = {}) => {
     const ffmpeg = await initFFmpeg();
-
+    await warmupFFmpeg(ffmpeg);
+    
     if (!(ffmpeg as any).__progressListenerInstalled) {
         ffmpeg.on("progress", ({ progress }: any) => {
             const cb = (ffmpeg as any).__progressCallback as ConvertOpts["onProgress"] | undefined;
@@ -37,12 +62,13 @@ const convertImage = async (file: File, outExt: ImageFormat, opts: ConvertOpts =
     await ffmpeg.deleteFile?.(out).catch(()=>{});
 
     await ffmpeg.writeFile(inp, await fetchFile(file));
-    const args: string[] = ["-i", inp];
+    const args: string[] = ["-y", "-hide_banner", "-loglevel", "error", "-i", inp, "-frames:v", "1"];
+    
 
     switch (outExt) {
         case "jpeg":
         case "jpg": {
-            args.push("-qscale:v", "5");
+            args.push("-vf", "format=yuv420p");
             break;
         }    
         
@@ -57,13 +83,18 @@ const convertImage = async (file: File, outExt: ImageFormat, opts: ConvertOpts =
         }
     }
 
+    console.log(out)
     args.push(out);
-    await ffmpeg.exec(args);
-    
+    try { await ffmpeg.exec(args); } catch (e) {
+        console.error("ffmpeg exec failed", e);
+    }
+
     const data = (await ffmpeg.readFile(out)) as Uint8Array;
     const bytes = new Uint8Array(data);
     const blob = new Blob([bytes], { type: mime(outExt) });
     const url = URL.createObjectURL(blob);
+
+    await ffmpeg.deleteFile?.(out).catch(() => {});
 
     (ffmpeg as any).__progressCallback = undefined;
 
